@@ -3,28 +3,36 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
+import { GoogleLogin } from "@react-oauth/google";
+import { Link } from "react-router-dom";
 
 const Register = () => {
-    const validateEmail = (email) => {
-      const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
-      if (!email || email.length < 1) {
-        return "Email is required";
-      } else if (!emailRegex.test(email)) {
-        return "Email is not valid";
-      } else {
-        return "";
-      }
-    };
-
-    const validatePassword = (password) => {
-      if (!password) {
-        return "Password is required";
-      } else if (password.length < 8) {
-        return "Password must be at least 8 characters long";
-      }
-
+  const validateEmail = (email) => {
+    const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
+    if (!email || email.length < 1) {
+      return "Email is required";
+    } else if (!emailRegex.test(email)) {
+      return "Email is not valid";
+    } else {
       return "";
-    };
+    }
+  };
+
+  const validatePassword = (password) => {
+    if (!password) {
+      return "Password is required";
+    } else if (password.length < 8) {
+      return "Password must be at least 8 characters long";
+    }
+
+    return "";
+  };
+  const onRegisterSuccess = (response) => {
+    console.log("Google registration success: ", response);
+  };
+  const onRegisterError = (error) => {
+    console.log("Google registration error: ", error);
+  };
   return (
     <div
       style={{
@@ -42,16 +50,10 @@ const Register = () => {
           <div className="mb-4 relative">
             <Label htmlFor="name">Name</Label>
 
-            <Input
-              type="text"
-              name="name"
-              id="name"
-              placeholder="John Doe"
-            />
+            <Input type="text" name="name" id="name" placeholder="John Doe" />
           </div>
           <div className="mb-4 relative">
             <Label htmlFor="email">Email</Label>
-
             <Input
               type="email"
               name="email"
@@ -76,14 +78,15 @@ const Register = () => {
           <div className="my-2 text-end w-full">
             <Button className="w-full">Login</Button>
           </div>
-          <p>Don't have an account yet, Sign up</p>
+          <p>Already have an account? <Link to="/login" className="underline">Login</Link></p>
         </form>
         <hr className="my-4" />
         {/* Google and Github sign in */}
         <div className="grid grid-cols-2 gap-2 mt-4">
-          <Button variant="outline" className="col-span-2 md:col-span-1">
-            Sign up with google
-          </Button>
+          <GoogleLogin
+            onSuccess={onRegisterSuccess}
+            onError={onRegisterError}
+          />
           <Button variant="outline" className="col-span-2 md:col-span-1">
             Sign up with Github
           </Button>
@@ -91,6 +94,6 @@ const Register = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Register
+export default Register;

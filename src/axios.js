@@ -29,17 +29,20 @@ axiosService.interceptors.response.use(
     }
   },
   (error) => {
-    console.log("Axios Error: ", error);
-    // if error name is token expired stuff, redirect to login and remove tokenin local storage
-    if (error.response && error.response.status === 401) {
-      localStorage.removeItem("token");
-      window.location.href = "/login";
-    } else if (error.response && error.response.status === 500) {
-      // Internal server error
-      return Promise.reject(error.response);
-    } else {
-      return Promise.reject(error.response.data || error.response);
-    }
+    // ==== Handle different kinds of error here
+    // console.log("Axios Error: ", error);
+    // // if error name is token expired stuff, redirect to login and remove tokenin local storage
+    // if (error.response && error.response.status === 401) {
+    //   localStorage.removeItem("token");
+    //   return Promise.reject(error.response)
+    //   // window.location.href = "/login";
+    // } else if (error.response && error.response.status === 500) {
+    //   // Internal server error
+    //   return Promise.reject(error.response);
+    // } else {
+    //   return Promise.reject(error.response.data || error.response);
+    // }
+    return Promise.reject(error.response);
   }
 );
 export default axiosService;
