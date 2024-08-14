@@ -29,6 +29,7 @@ import {
 import useWindowSize from "@/hooks/windowSize";
 import EditProfile from "./edit-profile/EditProfile";
 import UserExperience from "./user-experience/UserExperience";
+import UserCertification from "./user-certification/UserCertification";
 
 const User = () => {
   const [edit, setEdit] = useState(false);
@@ -110,9 +111,21 @@ const User = () => {
       <section className="sm:grid sm:grid-cols-2 bg-white my-2 shadow-sm rounded p-2">
         <div className="my-2 col-span-2 flex justify-between">
           <h6 className="font-semibold text-xl">Personal Information</h6>
-          <div className="shadow border px-3 py-2 rounded cursor-pointer">
-            <PlusIcon />
-          </div>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <div
+                  className="shadow border px-3 py-2 rounded cursor-pointer"
+                  onClick={() => setEdit(true)}
+                >
+                  <PlusIcon />
+                </div>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Add Information</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
 
         <div>
@@ -130,33 +143,9 @@ const User = () => {
       </section>
 
       {/* Experience */}
-
       <UserExperience />
-      {/* Projects */}
-      <section className="sm:grid sm:grid-cols-2 bg-white my-2 shadow-sm rounded p-2">
-        <div className="my-2 col-span-2 flex justify-between">
-          <h6 className="font-semibold text-xl">Certifications</h6>
-          <div className="shadow border px-3 py-2 rounded cursor-pointer">
-            <PlusIcon />
-          </div>
-        </div>
-        <div>
-          <div className="text-slate-600">Name:</div>
-          <p className="font-semibold">GDSC Unilag</p>
-        </div>
-        <div>
-          <div className="text-slate-600">Certificate Url:</div>
-          <p className="font-semibold">google.com</p>
-        </div>
-        <div>
-          <div className="text-slate-600">Issuing Organization</div>
-          <p className="font-semibold">Google</p>
-        </div>
-        <div>
-          <div className="text-slate-600">Date issued: </div>
-          <p className="font-semibold">22nd of August, 2023</p>
-        </div>
-      </section>
+      {/* Certifications */}
+      <UserCertification />
     </div>
   );
 };
