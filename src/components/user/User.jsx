@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { PlusIcon } from "lucide-react";
 import { Edit3Icon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -27,6 +28,7 @@ import {
 } from "@/components/ui/drawer";
 import useWindowSize from "@/hooks/windowSize";
 import EditProfile from "./edit-profile/EditProfile";
+import UserExperience from "./user-experience/UserExperience";
 
 const User = () => {
   const [edit, setEdit] = useState(false);
@@ -56,7 +58,7 @@ const User = () => {
 
       {edit && width >= 768 ? (
         <Dialog open={edit} onOpenChange={setEdit}>
-          <DialogContent className="max-w-screen h-[calc(100vh-110px) ">
+          <DialogContent className="max-w-screen h-[calc(100vh-110px ">
             <DialogHeader>
               <DialogTitle>Edit profile</DialogTitle>
               <DialogDescription>
@@ -109,7 +111,7 @@ const User = () => {
         <div className="my-2 col-span-2 flex justify-between">
           <h6 className="font-semibold text-xl">Personal Information</h6>
           <div className="shadow border px-3 py-2 rounded cursor-pointer">
-            <Edit3Icon />
+            <PlusIcon />
           </div>
         </div>
 
@@ -128,39 +130,14 @@ const User = () => {
       </section>
 
       {/* Experience */}
-      <section className="sm:grid sm:grid-cols-2 bg-white my-2 shadow-sm rounded p-2">
-        <div className="my-2 col-span-2 flex justify-between">
-          <h6 className="font-semibold text-xl">Experience</h6>
-          <div className="shadow border px-3 py-2 rounded cursor-pointer">
-            <Edit3Icon />
-          </div>
-        </div>
-        <div>
-          <div className="text-slate-600">Project Name:</div>
-          <p className="font-semibold">Team up</p>
-        </div>
-        <div>
-          <div className="text-slate-600">Project Url:</div>
-          <p className="font-semibold">localhost:5137</p>
-        </div>
-        <div>
-          <div className="text-slate-600">Skills:</div>
-          <p className="font-semibold">Reactjs, MongoDB, Node and Express.</p>
-        </div>
-        <div>
-          <div className="text-slate-600">Contributors: </div>
-          <p className="font-semibold">
-            temiloluwaOgunti8@gmail.com, temmy4jamb@gmail.com
-          </p>
-        </div>
-      </section>
 
+      <UserExperience />
       {/* Projects */}
       <section className="sm:grid sm:grid-cols-2 bg-white my-2 shadow-sm rounded p-2">
         <div className="my-2 col-span-2 flex justify-between">
           <h6 className="font-semibold text-xl">Certifications</h6>
           <div className="shadow border px-3 py-2 rounded cursor-pointer">
-            <Edit3Icon />
+            <PlusIcon />
           </div>
         </div>
         <div>
