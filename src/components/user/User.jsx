@@ -35,6 +35,7 @@ const User = () => {
   const [edit, setEdit] = useState(false);
   const [width] = useWindowSize();
 
+  // Settings - profile, password, team
   // personal information(email, name, photo, phone no, socials), experience, projects
   return (
     <div className="p-4 bg-gray-100">

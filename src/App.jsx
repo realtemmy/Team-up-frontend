@@ -6,6 +6,7 @@ import User from "./components/user/User";
 import NotFound from "./pages/Not-found/NotFound";
 import { ToastContainer } from "react-toastify";
 import Navigation from "./components/navigation/Navigation";
+import UserSettings from "./pages/settings/UserSettings";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -18,6 +19,7 @@ function App() {
           <Route index element={<User />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/user/settings" element={<UserSettings />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

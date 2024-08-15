@@ -73,13 +73,33 @@ const UserCertification = () => {
                   </div>
                   <div>
                     <Label htmlFor="url" className="mb-2 inline-block">
-                      Url
+                      Certificate Url
                     </Label>
                     <Input
                       id="url"
                       //   value={formFields.url}
                       //   onChange={handleInputChange}
                       type="url"
+                      className="col-span-3"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="url">Issuing Organization</Label>
+                    <Input
+                      id="url"
+                      value={formFields.url}
+                      onChange={handleInputChange}
+                      type="text"
+                      className="col-span-3"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="url">Date issued:</Label>
+                    <Input
+                      id="url"
+                      value={formFields.url}
+                      onChange={handleInputChange}
+                      type="date"
                       className="col-span-3"
                     />
                   </div>
@@ -130,7 +150,7 @@ const UserCertification = () => {
                           id="url"
                           value={formFields.url}
                           onChange={handleInputChange}
-                          type="url"
+                          type="text"
                           className="col-span-3"
                         />
                       </div>
