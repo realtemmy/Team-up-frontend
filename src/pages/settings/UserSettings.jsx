@@ -12,7 +12,7 @@ const UserSettings = () => {
   return (
     <div className="mt-2 p-2">
       <div className="grid grid-cols-2 gap-4">
-        <div className="col-span-2 flex items-center gap-4 border mb-4">
+        <div className="col-span-2 flex flex-col md:flex-row items-center gap-4 mb-4">
           <div className="relative">
             <Avatar className="w-32 h-32 border-2">
               <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
@@ -34,11 +34,11 @@ const UserSettings = () => {
           </div>
         </div>
         <form className="grid grid-cols-2 gap-2">
-          <div className="mb-2">
+          <div className="mb-2 col-span-2 lg:col-span-1">
             <Label htmlFor="name">Name</Label>
             <Input type="text" />
           </div>
-          <div className="mb-2">
+          <div className="mb-2 col-span-2 lg:col-span-1">
             <Label htmlFor="email">Email</Label>
             <Input
               type="email"
@@ -47,11 +47,11 @@ const UserSettings = () => {
               disabled
             />
           </div>
-          <div className="mb-2">
+          <div className="mb-2 col-span-2 lg:col-span-1">
             <Label htmlFor="number">Mobile Number</Label>
             <Input type="text" />
           </div>
-          <div className="mb-2">
+          <div className="mb-2 col-span-2 lg:col-span-1">
             <Label>Gender</Label>
             <RadioGroup className="flex">
               <Button
@@ -76,7 +76,7 @@ const UserSettings = () => {
             <Label htmlFor="address">Residential Address</Label>
             <Textarea placeholder="Aso-rock, Ibafo" />
           </div>
-          <Button className="" type="button">
+          <Button className="bg-slate-700" type="button">
             Save Changes
           </Button>
         </form>
@@ -110,7 +110,6 @@ const UserSettings = () => {
           <div className="text-right">
             <Button>Save Changes</Button>
           </div>
-          
         </form>
       </div>
     </div>

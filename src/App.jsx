@@ -1,27 +1,37 @@
 import { Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+
+import User from "./components/user/User";
+import Navigation from "./components/navigation/Navigation";
+
 import Chat from "./pages/chat/chat";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
-import User from "./components/user/User";
 import NotFound from "./pages/Not-found/NotFound";
-import { ToastContainer } from "react-toastify";
-import Navigation from "./components/navigation/Navigation";
+import Home from "./pages/home/Home";
 import UserSettings from "./pages/settings/UserSettings";
+import Project from "./pages/project/Project";
 
 import "react-toastify/dist/ReactToastify.css";
 
-// dialogue, drawer, hover card
+// create a create/join a project, join a hackathon
+// create a project - send invites to collaborators,
+// Assign tasks
+// Header - sidebar, Breadcrumb and navigation.
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<Navigation />}>
-          <Route index element={<User />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route index element={<Home />} />
+          <Route path="/user" element={<User />} />
+          <Route path="/projects" element={<Project />} />
           <Route path="/user/settings" element={<UserSettings />} />
-          <Route path="*" element={<NotFound />} />
         </Route>
+
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <ToastContainer />
     </>

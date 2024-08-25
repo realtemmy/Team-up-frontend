@@ -22,7 +22,7 @@ axiosService.interceptors.response.use(
   (response) => {
     console.log("axios response: ", response);
     if (response.status < 400) {
-      return response;
+      return response.data;
     } else {
       // create a toast default notification(few secs) to display error in maybe navigation
       return Promise.reject(response.message);

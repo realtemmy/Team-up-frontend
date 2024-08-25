@@ -8,11 +8,9 @@ import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
 import { GoogleLogin } from "@react-oauth/google";
 
-
 import axiosService from "@/axios";
 
-const Login =  () => {
-
+const Login = () => {
   const [password, setPassword] = useState(" ");
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState({});
@@ -69,23 +67,22 @@ const Login =  () => {
     }
 
     try {
-      const res = await axiosService.post("/user/login", {email, password});
-
-      console.log(res);
+      const res = await axiosService.post("/user/login", { email, password });
+      const { token, user } = res;
+      console.log(token, user);
+      localStorage.setItem("token", token);
     } catch (error) {
-     toast.error("There was an error");
+      toast.error("There was an error");
       console.log("Error: ", error);
     }
   };
 
   const onGooglgSuccess = (response) => {
-    console.log("Google response: ",response);
-    
-  }
+    console.log("Google response: ", response);
+  };
   const onGoogleError = (error) => {
     console.log("Google error: ", error);
-    
-  }
+  };
 
   // let passwordRegex = /[a]/;
 
@@ -150,12 +147,21 @@ const Login =  () => {
           <div className="my-2 text-end w-full">
             <Button className="w-full">Login</Button>
           </div>
-          <p>Don't have an account yet, <Link to="/register" className="underline">Sign up</Link></p>
+          <p>
+            Don't have an account yet,{" "}
+            <Link to="/register" className="underline">
+              Sign up
+            </Link>
+          </p>
         </form>
         <hr className="my-4" />
         {/* Google and Github sign in */}
         <div className="grid grid-cols-2 gap-2 mt-4">
-          <GoogleLogin onSuccess={onGooglgSuccess}  onError={onGoogleError} text="Sign up with Google" />
+          <GoogleLogin
+            onSuccess={onGooglgSuccess}
+            onError={onGoogleError}
+            text="Sign up with Google"
+          />
           <Button variant="outline" className="col-span-2 md:col-span-1">
             Sign in with Github
           </Button>

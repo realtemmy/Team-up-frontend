@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BoxSelect, CheckIcon, PlusIcon } from "lucide-react";
 import {
   Dialog,
@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -44,6 +45,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import useWindowSize from "@/hooks/windowSize";
 import { cn } from "@/lib/utils";
 
+import axiosService from "@/axios";
+
 const AddExperience = () => {
   // Form handling logic can be moved here
   return <div>Add Experience Component</div>;
@@ -53,9 +56,20 @@ const UserExperience = () => {
   const defaultFields = {
     name: "",
     url: "",
+    desc: "",
     skills: [],
     collaborators: [],
   };
+
+  // On page load, fetch all available users
+  // useEffect(() => {
+  //   async function fetchUsers() {
+  //     const res = await axiosService.get("/user/other-users");
+  //     setUsers(res.data)
+  //     console.log(res);
+  //   }
+  //   fetchUsers();
+  // }, []);
 
   const [formFields, setFormFields] = useState(defaultFields);
   const [edit, setEdit] = useState(false);
@@ -64,6 +78,7 @@ const UserExperience = () => {
   const [skill, setSkill] = useState("");
   const [value, setValue] = useState("");
   const [skills, setSkills] = useState([]);
+  const [users, setUsers] = useState([]);
   const [width] = useWindowSize();
 
   const handleSkillSelect = (selectedSkill) => {
@@ -78,6 +93,10 @@ const UserExperience = () => {
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     setFormFields((prevFields) => ({ ...prevFields, [id]: value }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
   };
 
   return (
@@ -95,16 +114,17 @@ const UserExperience = () => {
                       Add new experience here
                     </DialogDescription>
                   </DialogHeader>
-                  <div className="grid gap-4 py-4">
+                  <form className="grid gap-4 py-4" onSubmit={handleSubmit}>
                     <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="name">Name</Label>
+                      <Label htmlFor="project-name">Name</Label>
                       <Input
-                        id="name"
+                        id="project-name"
                         value={formFields.name}
                         onChange={handleInputChange}
                         className="col-span-3"
                       />
                     </div>
+
                     <div className="grid grid-cols-4 items-center gap-4">
                       <Label htmlFor="url">Project Url</Label>
                       <Input
@@ -191,7 +211,16 @@ const UserExperience = () => {
                         </div>
                       ))}
                     </div>
-                  </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="desc">Description</Label>
+                      <Textarea
+                        id="desc"
+                        value={formFields.desc}
+                        onChange={handleInputChange}
+                        className="col-span-3"
+                      />
+                    </div>
+                  </form>
                   <DialogFooter>
                     <Button type="submit">Save changes</Button>
                   </DialogFooter>

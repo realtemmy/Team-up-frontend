@@ -4,6 +4,7 @@ import { Outlet } from "react-router-dom";
 import { LogOut } from "lucide-react";
 
 const Navigation = () => {
+  // hackathons, projects
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeState, setActiveState] = useState("dashboard");
