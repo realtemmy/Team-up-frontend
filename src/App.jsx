@@ -10,7 +10,7 @@ import Register from "./pages/register/Register";
 import NotFound from "./pages/Not-found/NotFound";
 import Home from "./pages/home/Home";
 import UserSettings from "./pages/settings/UserSettings";
-import Project from "./pages/project/Project";
+import Projects from "./pages/projects/Projects";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -18,6 +18,7 @@ import "react-toastify/dist/ReactToastify.css";
 // create a project - send invites to collaborators,
 // Assign tasks
 // Header - sidebar, Breadcrumb and navigation.
+// latest project route project/latest -- would get by project creation date only
 function App() {
   return (
     <>
@@ -25,7 +26,7 @@ function App() {
         <Route path="/" element={<Navigation />}>
           <Route index element={<Home />} />
           <Route path="/user" element={<User />} />
-          <Route path="/projects" element={<Project />} />
+          <Route path="/projects" element={<Projects />} />
           <Route path="/user/settings" element={<UserSettings />} />
         </Route>
 

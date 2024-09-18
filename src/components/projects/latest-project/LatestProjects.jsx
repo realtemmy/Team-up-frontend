@@ -11,7 +11,7 @@ const LatestProjects = () => {
           gridTemplateColumns: "repeat(auto-fill, minmax(155px, 1fr) )",
         }}
       >
-        <section className="border rounded p-1">
+        <section className="border rounded-lg shadow p-2">
           <div className="flex items-center capitalize gap-2">
             <Avatar>
               <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
@@ -49,7 +49,7 @@ const LatestProjects = () => {
             architecto itaque fugit.
           </div>
         </section>
-        <section className="border rounded p-1">
+        <section className="border rounded-lg shadow p-2">
           <div className="flex items-center capitalize gap-2">
             <Avatar>
               <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />

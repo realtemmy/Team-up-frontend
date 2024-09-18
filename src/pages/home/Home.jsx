@@ -44,12 +44,15 @@ const Home = () => {
       <section className="px-">
         <LatestProjects />
       </section>
-      <Link
-        to="/"
-        className="font-semibold text-slate-600 border p-1 rounded shadow"
-      >
-        Explore products
-      </Link>
+      <div className="text-center my-4">
+        <Link
+          to="/"
+          className="font-semibold text-slate-600 border p-1 rounded shadow inline-block"
+        >
+          Explore products
+        </Link>
+      </div>
+
       {/* Sliding images */}
       {/* Testimonies */}
       {/* footer */}

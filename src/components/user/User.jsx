@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { PlusIcon } from "lucide-react";
 import { Edit3Icon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -21,19 +22,47 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
+
+import { setUser } from "@/redux/user/userSlice";
+
+import axiosService from "@/axios";
 import useWindowSize from "@/hooks/windowSize";
+
 import EditProfile from "./edit-profile/EditProfile";
 import UserExperience from "./user-experience/UserExperience";
 import UserCertification from "./user-certification/UserCertification";
 
 const User = () => {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
   const [edit, setEdit] = useState(false);
   const [width] = useWindowSize();
+
+  const defaultFields = {
+    name: user.name,
+    email: user.email,
+    phone: user.phone,
+    bio: user.bio,
+  };
+
+  const [formFields, setFormFields] = useState(defaultFields);
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormFields({ ...formFields, [name]: value });
+  };
+
+  const handleSubmit = async () => {
+    const { data } = await axiosService.patch("/user/me", formFields);
+    dispatch(setUser(data));
+    console.log(data);
+  };
+
+  const { name, email, phone, certifications, projects, education } = user;
 
   // Settings - profile, password, team
   // personal information(email, name, photo, phone no, socials), experience, projects
@@ -58,53 +87,57 @@ const User = () => {
         </TooltipProvider>
       </div>
 
-      {edit && width >= 768 ? (
-        <Dialog open={edit} onOpenChange={setEdit}>
-          <DialogContent className="max-w-screen h-[calc(100vh-110px ">
-            <DialogHeader>
-              <DialogTitle>Edit profile</DialogTitle>
-              <DialogDescription>
-                Make changes to your profile here. Click save when you're done.
-              </DialogDescription>
-            </DialogHeader>
-            <EditProfile />
-            <DialogFooter>
-              <Button type="submit">Save changes</Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      ) : edit && width < 768 ? (
-        <Drawer open={edit} onOpenChange={setEdit}>
-          <DrawerContent>
-            <DrawerHeader className="text-left">
-              <DrawerTitle>Edit profile</DrawerTitle>
-              <DrawerDescription>
-                Make changes to your profile here. Click save when you're done.
-              </DrawerDescription>
-            </DrawerHeader>
-            <EditProfile />
-            <DrawerFooter className="pt-2">
-              <DrawerClose asChild>
-                <Button variant="outline">Cancel</Button>
-              </DrawerClose>
-            </DrawerFooter>
-          </DrawerContent>
-        </Drawer>
-      ) : (
-        ""
-      )}
+      {edit &&
+        (width < 768 ? (
+          <Drawer open={edit} onOpenChange={setEdit}>
+            <DrawerContent>
+              <DrawerHeader className="text-left">
+                <DrawerTitle>Edit profile</DrawerTitle>
+              </DrawerHeader>
+              <EditProfile
+                handleInputChange={handleInputChange}
+                formFields={formFields}
+              />
+              <DrawerFooter className="pt-2">
+                <DrawerClose asChild>
+                  <Button variant="outline">Cancel</Button>
+                </DrawerClose>
+                <Button onClick={handleSubmit}>Submit</Button>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
+        ) : (
+          <Dialog open={edit} onOpenChange={setEdit}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Edit profile</DialogTitle>
+                <DialogDescription>
+                  Make changes to your profile here. Click save when you're
+                  done.
+                </DialogDescription>
+              </DialogHeader>
+              <EditProfile
+                handleInputChange={handleInputChange}
+                formFields={formFields}
+              />
+              <DialogFooter>
+                <Button type="submit" onClick={handleSubmit}>
+                  Save changes
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        ))}
 
       <section className="shadow-sm rounded bg-white p-2 my-2 flex flex-col sm:flex-row gap-2 items-center">
         <Avatar className="w-24 h-24">
           <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
           <AvatarFallback className="uppercase">SH</AvatarFallback>
         </Avatar>
-        <div>
-          <div className="font-semibold">Realtemmy</div>
-          <p>
-            Bio: Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Aperiam nam voluptate minima at inventore hic ratione exercitationem
-            asperiores, autem odio!
+        <div className="flex flex-col space-y-2 text-center sm:text-left">
+          <div className="font-semibold capitalize">{name}</div>
+          <p className="font-semibold text-sm">
+            Bio: Software engineer at google
           </p>
         </div>
       </section>
@@ -131,15 +164,20 @@ const User = () => {
 
         <div>
           <div className="text-slate-600">Name:</div>
-          <p className="font-semibold">Temiloluwa</p>
+          <p className="font-semibold capitalize">{name}</p>
         </div>
         <div>
           <div className="text-slate-600">Address</div>
           <p className="font-semibold">Lagos, Nigeria</p>
         </div>
+
         <div>
           <div className="text-slate-600">Email:</div>
-          <p className="font-semibold">temiloluwaOgunti8@gmail.com</p>
+          <p className="font-semibold">{email}</p>
+        </div>
+        <div>
+          <div className="text-slate-600">Phone Number</div>
+          <p className="font-semibold">{phone}</p>
         </div>
       </section>
 

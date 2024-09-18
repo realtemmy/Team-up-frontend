@@ -5,7 +5,6 @@ const initialState = {
   messages: [],
   showProfile: true,
   showDM: false,
-  user: null,
 };
 
 const chatSlice = createSlice({
@@ -18,15 +17,12 @@ const chatSlice = createSlice({
     toggleDM(state, action) {
       state.showDM = action.payload;
     },
-    setUser(state, action) {
-      state.user = action.payload;
-    },
     setMessages(state, action){
       state.messages = action.payload;
     }
   },
 });
 
-export const { toggleProfile, toggleDM, setUser } = chatSlice.actions;
+export const { toggleProfile, toggleDM } = chatSlice.actions;
 
 export default chatSlice.reducer;

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 
-import { toggleDM, setUser } from "@/redux/chat-redux/chatSlice";
+import { toggleDM } from "@/redux/chat-redux/chatSlice";
 
 const users = [
   {
@@ -35,7 +35,7 @@ const UserChat = () => {
 
   const handleClick = (user, idx) => {
     setActiveUser(idx);
-    dispatch(setUser(user))
+    // dispatch(setUser(user))
     dispatch(toggleDM(true));
   };
   return (

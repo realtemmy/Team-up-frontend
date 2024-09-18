@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,9 +9,12 @@ import { Button } from "@/components/ui/button";
 import { toast } from "react-toastify";
 import { GoogleLogin } from "@react-oauth/google";
 
+import { setUser } from "@/redux/user/userSlice";
+
 import axiosService from "@/axios";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const [password, setPassword] = useState(" ");
   const [email, setEmail] = useState("");
   const [errors, setErrors] = useState({});
@@ -70,6 +74,7 @@ const Login = () => {
       const res = await axiosService.post("/user/login", { email, password });
       const { token, user } = res;
       console.log(token, user);
+      dispatch(setUser(user));
       localStorage.setItem("token", token);
     } catch (error) {
       toast.error("There was an error");
@@ -157,11 +162,14 @@ const Login = () => {
         <hr className="my-4" />
         {/* Google and Github sign in */}
         <div className="grid grid-cols-2 gap-2 mt-4">
-          <GoogleLogin
+          <div className="col-span-2 md:col-span-1">
+            <GoogleLogin
             onSuccess={onGooglgSuccess}
             onError={onGoogleError}
             text="Sign up with Google"
           />
+          </div>
+          
           <Button variant="outline" className="col-span-2 md:col-span-1">
             Sign in with Github
           </Button>

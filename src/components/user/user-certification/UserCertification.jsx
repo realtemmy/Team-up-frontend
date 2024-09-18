@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BoxSelect, CheckIcon, PlusIcon } from "lucide-react";
+import { PlusIcon } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -100,7 +100,7 @@ const UserCertification = () => {
   };
 
   const handleSubmit = async () => {
-    console.log(formFields);
+
     
     const res = await axiosService.post("/certificate", {
       name: formFields.name,
