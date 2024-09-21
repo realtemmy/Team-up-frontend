@@ -19,6 +19,13 @@ import "react-toastify/dist/ReactToastify.css";
 // Assign tasks
 // Header - sidebar, Breadcrumb and navigation.
 // latest project route project/latest -- would get by project creation date only
+
+
+// ====== This night ==========
+// create uploading of images on the server
+// allow uploading of image for project creation, user profile picture
+
+// projects/:projectId - project page to join/view projects
 function App() {
   return (
     <>

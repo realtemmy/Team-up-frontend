@@ -1,4 +1,5 @@
 import { CameraIcon } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -8,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const UserSettings = () => {
+  const { user } = useSelector((state) => state.user);
   // change picture, change passwords, profession, email(disabled)
   return (
     <div className="mt-2 p-2">
@@ -36,20 +38,21 @@ const UserSettings = () => {
         <form className="grid grid-cols-2 gap-2">
           <div className="mb-2 col-span-2 lg:col-span-1">
             <Label htmlFor="name">Name</Label>
-            <Input type="text" />
+            <Input type="text" value={user.name} />
           </div>
           <div className="mb-2 col-span-2 lg:col-span-1">
             <Label htmlFor="email">Email</Label>
             <Input
               type="email"
-              value="temiloluwaOgunti8@gmail.com"
+              placeholder="johndoe@mail.com"
               className="font-semibold"
+              value={user.email}
               disabled
             />
           </div>
           <div className="mb-2 col-span-2 lg:col-span-1">
             <Label htmlFor="number">Mobile Number</Label>
-            <Input type="text" />
+            <Input type="text" value={user.phone} />
           </div>
           <div className="mb-2 col-span-2 lg:col-span-1">
             <Label>Gender</Label>
@@ -76,7 +79,7 @@ const UserSettings = () => {
             <Label htmlFor="address">Residential Address</Label>
             <Textarea placeholder="Aso-rock, Ibafo" />
           </div>
-          <Button className="bg-slate-700" type="button">
+          <Button className="bg-slate-700" type="button" >
             Save Changes
           </Button>
         </form>
@@ -108,7 +111,7 @@ const UserSettings = () => {
             />
           </div>
           <div className="text-right">
-            <Button>Save Changes</Button>
+            <Button className="bg-teal-900">Save Changes</Button>
           </div>
         </form>
       </div>

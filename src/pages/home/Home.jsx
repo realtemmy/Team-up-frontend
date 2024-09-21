@@ -46,10 +46,10 @@ const Home = () => {
       </section>
       <div className="text-center my-4">
         <Link
-          to="/"
+          to="/projects"
           className="font-semibold text-slate-600 border p-1 rounded shadow inline-block"
         >
-          Explore products
+          Explore projects
         </Link>
       </div>
 

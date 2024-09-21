@@ -12,36 +12,40 @@ import {
 
 import Project from "@/features/project/project/project";
 
-
 const Projects = () => {
   // project type - web dev, machine learning, mobile app, data science and ml
   // desc, status(ongoing, completed)
   // create project, edit and delete project, add send user invite to join project, accept invitation to join project
   // all, innovation, skill showcase, collaboration, designs
   // Search by category, skill level, technology
+
+  const handleChange = (event) => {
+    console.log(event);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+  };
   return (
     <div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="flex flex-wrap justify-between my-2">
           <h2 className="text-2xl text-slate-700 font-semibold">
             Explore projects
           </h2>
           <div className="flex gap-4">
-            <Input
-              className="rounded w-fit"
-              placeholder="Search projects..."
-            />
+            <Input className="rounded w-fit" placeholder="Search projects..." />
             <Button>Search</Button>
           </div>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Select>
+          <Select onValueChange={handleChange}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Category" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel>Fruits</SelectLabel>
+                <SelectLabel>All</SelectLabel>
                 <SelectItem value="apple">Apple</SelectItem>
                 <SelectItem value="banana">Banana</SelectItem>
                 <SelectItem value="blueberry">Blueberry</SelectItem>
@@ -56,12 +60,10 @@ const Projects = () => {
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel>Fruits</SelectLabel>
-                <SelectItem value="apple">Apple</SelectItem>
-                <SelectItem value="banana">Banana</SelectItem>
-                <SelectItem value="blueberry">Blueberry</SelectItem>
-                <SelectItem value="grapes">Grapes</SelectItem>
-                <SelectItem value="pineapple">Pineapple</SelectItem>
+                <SelectLabel>Required skill</SelectLabel>
+                <SelectItem value="apple">Beginners</SelectItem>
+                <SelectItem value="banana">Intermediate</SelectItem>
+                <SelectItem value="blueberry">Advanced</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>

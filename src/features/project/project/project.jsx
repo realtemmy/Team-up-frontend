@@ -16,7 +16,16 @@ const Project = () => {
           alt="image"
         />
         <h5 className="font-semibold text-xl">Web dev project</h5>
-        <p className="font-semibold my-2">
+        <p
+          className="font-semibold my-2"
+          style={{
+            display: "-webkit-box",
+            WebkitBoxOrient: "vertical",
+            WebkitLineClamp: 2,
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. At officia
           expedita saepe dicta, aspernatur sit?
         </p>
@@ -47,7 +56,16 @@ const Project = () => {
           alt="image"
         />
         <h5 className="font-semibold text-xl">Web dev project</h5>
-        <p className="font-semibold my-2">
+        <p
+          className="font-semibold my-2"
+          style={{
+            display: "-webkit-box",
+            WebkitBoxOrient: "vertical",
+            WebkitLineClamp: 2,
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. At officia
           expedita saepe dicta, aspernatur sit?
         </p>
@@ -63,7 +81,16 @@ const Project = () => {
           alt="image"
         />
         <h5 className="font-semibold text-xl">Web dev project</h5>
-        <p className="font-semibold my-2">
+        <p
+          className="font-semibold my-2"
+          style={{
+            display: "-webkit-box",
+            WebkitBoxOrient: "vertical",
+            WebkitLineClamp: 2,
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. At officia
           expedita saepe dicta, aspernatur sit?
         </p>

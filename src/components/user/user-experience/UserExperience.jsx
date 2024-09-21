@@ -61,6 +61,7 @@ const UserExperience = () => {
   const [skills, setSkills] = useState([]);
   const [skillOpen, setSkillOpen] = useState(false);
   const [skill, setSkill] = useState("");
+  const [image, setImage] = useState({});
   // const [users, setUsers] = useState([]);
 
   const [formFields, setFormFields] = useState(defaultFields);
@@ -77,8 +78,11 @@ const UserExperience = () => {
     setSkillOpen(false);
   };
 
+
   const handleSubmit = async () => {
-    const res = await axiosService.post("/project", { ...formFields, skills });
+    // convert to formdata
+    const formData = new FormData();
+    const res = await axiosService.post("/project", { ...formFields, skills, image });
     toast.success("Project was successfully created");
     //update user's projects in localstorage with response id
     console.log(res);
@@ -109,6 +113,7 @@ const UserExperience = () => {
                   skill={skill}
                   setSkill={setSkill}
                   setSkillOpen={setSkillOpen}
+                  setImage={setImage}
                 />
                 <DrawerFooter className="pt-2">
                   <DrawerClose asChild>
@@ -126,8 +131,8 @@ const UserExperience = () => {
             <DialogContent className="sm:max-w-[425px]">
               <ScrollArea>
                 <DialogHeader>
-                  <DialogTitle>Add new experience</DialogTitle>
-                  <DialogDescription>Add new experience here</DialogDescription>
+                  <DialogTitle>Create new project</DialogTitle>
+                  <DialogDescription>Add to your experience</DialogDescription>
                 </DialogHeader>
                 <AddProject
                   formFields={formFields}

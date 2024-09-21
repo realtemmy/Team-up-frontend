@@ -17,6 +17,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useState } from "react";
 
 const AddProject = ({
   formFields,
@@ -28,11 +30,18 @@ const AddProject = ({
   setSkillOpen,
   skill,
   setSkill,
+  setImage,
 }) => {
   const { name, url, desc, collaborators } = formFields;
+  const [selectedImage, setSelectedImage] = useState("");
 
   const skillsList = ["MongoDB", "React", "PostgreSql", "Node", "Express"];
-  
+
+  const handleImageChange = (event) => {
+    setSelectedImage(URL.createObjectURL(event.target.files[0]));
+    setImage(event.target.files[0])
+  };
+
   return (
     <div className="grid gap-4 px-4 md:px-0 sm:py-4">
       <div>
@@ -134,6 +143,21 @@ const AddProject = ({
           name="desc"
         />
       </div>
+      <section className="shadow-sm rounded bg-white p-2 my-2 flex flex-col sm:flex-row gap-2 items-center">
+        <div>
+          <Input type="file" onChange={handleImageChange} accept="image/*" />
+        </div>
+        {selectedImage && (
+          <Avatar className="w-24 h-24 rounded-none">
+            <AvatarImage src={selectedImage} alt="@shadcn" />
+            <AvatarFallback className="uppercase">SH</AvatarFallback>
+          </Avatar>
+        )}
+
+        {/* <div className="flex flex-col space-y-2 text-center sm:text-left">
+          
+        </div> */}
+      </section>
     </div>
   );
 };
