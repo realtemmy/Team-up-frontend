@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
-import { setUser, setPhoto } from "@/redux/user/userSlice";
+import { setUser, setProfilePhoto } from "@/redux/user/userSlice";
 
 import Loader from "@/components/Loader/Loader";
 import defaultProfileImage from "./../../assets/default profile.jpg";
@@ -64,16 +64,22 @@ const UserSettings = () => {
     const formData = new FormData();
     formData.append("photo", photo);
     setLoader(true);
-    const res = await axiosService.patch(
-      "/user/change-profile-photo",
-      formData,
-      {
-        headers: { "Content-Type": "multipart/form-data" },
-      }
-    );
-    console.log("New image:", res);
-    dispatch(setPhoto(res.data));
-    setLoader(false);
+    try {
+      const res = await axiosService.patch(
+        "/user/change-profile-photo",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+      console.log("New image:", res);
+      dispatch(setProfilePhoto(res.data));
+      setOpen(false);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoader(false);
+    }
   };
 
   const handleProfileSubmit = async (event) => {
@@ -128,7 +134,8 @@ const UserSettings = () => {
         </DialogContent>
       </Dialog>
       <div className="grid grid-cols-2 gap-4">
-        {/* <Loader /> */}
+        {loader && <Loader />}
+
         <div className="col-span-2 flex flex-col md:flex-row items-center gap-4 mb-4">
           <div className="relative">
             <Avatar className="w-32 h-32 rounded-full border-2">

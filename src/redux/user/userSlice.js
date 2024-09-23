@@ -17,7 +17,7 @@ const userSlice = createSlice({
       state.loggedIn = true;
       state.active = true;
     },
-    setPhoto: (state, action) => {
+    setProfilePhoto: (state, action) => {
       state.user.photo = action.payload;
     }
     // updateuser: (state, action) => {},
@@ -25,6 +25,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { setUser, clearUser, updateuser, setPhoto } = userSlice.actions;
+export const { setUser, clearUser, updateuser, setProfilePhoto } = userSlice.actions;
 
 export default userSlice.reducer;
