@@ -1,10 +1,13 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { LogOut } from "lucide-react";
+import { useSelector } from "react-redux";
+
+import defaultPhoto from "./../../assets/default profile.jpg"
 
 const Navigation = () => {
   // hackathons, projects
+  const { photo } = useSelector((state) => state.user.user);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeState, setActiveState] = useState("dashboard");
@@ -149,7 +152,7 @@ const Navigation = () => {
                     <span className="sr-only">Open user menu</span>
                     <img
                       className="h-8 w-8 rounded-full"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                      src={photo || defaultPhoto}
                       alt=""
                     />
                   </button>

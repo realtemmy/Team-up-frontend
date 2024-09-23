@@ -1,21 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-// const initialState = {
-//   name: "",
-//   bio: "",
-//   email: "",
-//   address: "",
-//   projectName: "",
-//   skills: [],
-//   projectUrl: "",
-//   contributors: [],
-//   certificationName: "",
-//   certificateUrl: "",
-//   certificateDateIssued: "",
-//   phone: "",
-//   //   socials
-// };
-
 const initialState = {
   user: null,
   loggedIn: false,
@@ -33,11 +17,14 @@ const userSlice = createSlice({
       state.loggedIn = true;
       state.active = true;
     },
+    setPhoto: (state, action) => {
+      state.user.photo = action.payload;
+    }
     // updateuser: (state, action) => {},
     // clearUser: (state, action) => {},
   },
 });
 
-export const { setUser, clearUser, updateuser } = userSlice.actions;
+export const { setUser, clearUser, updateuser, setPhoto } = userSlice.actions;
 
 export default userSlice.reducer;

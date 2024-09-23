@@ -78,11 +78,20 @@ const UserExperience = () => {
     setSkillOpen(false);
   };
 
-
   const handleSubmit = async () => {
     // convert to formdata
     const formData = new FormData();
-    const res = await axiosService.post("/project", { ...formFields, skills, image });
+    formData.append("image", image);
+    formData.append("name", formFields.name);
+    formData.append("url", formFields.url);
+    formData.append("skills", skills);
+    formData.append("collaborators", formFields.collaborators);
+    formData.append("desc", formFields.desc);
+    console.log(formFields, skills, image);
+    
+    const res = await axiosService.post("/project", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
     toast.success("Project was successfully created");
     //update user's projects in localstorage with response id
     console.log(res);
@@ -147,7 +156,7 @@ const UserExperience = () => {
                 />
                 <DialogFooter>
                   <Button type="submit" onClick={handleSubmit}>
-                    Save changes
+                    Create project
                   </Button>
                 </DialogFooter>
               </ScrollArea>

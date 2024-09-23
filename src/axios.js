@@ -42,6 +42,7 @@ axiosService.interceptors.response.use(
     // } else {
     //   return Promise.reject(error.response.data || error.response);
     // }
+    // if error === 204 ie delete with no content, just show successful notification
     return Promise.reject(error.response);
   }
 );
