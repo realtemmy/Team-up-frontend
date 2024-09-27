@@ -29,6 +29,7 @@ import {
 
 import { setUser } from "@/redux/user/userSlice";
 
+import defaultImage from "./../../assets/default profile.jpg"
 import axiosService from "@/axios";
 import useWindowSize from "@/hooks/windowSize";
 
@@ -62,7 +63,7 @@ const User = () => {
     console.log(data);
   };
 
-  const { name, email, phone, certifications, projects, education } = user;
+  const { name, email, phone, photo } = user;
 
   // Settings - profile, password, team
   // personal information(email, name, photo, phone no, socials), experience, projects
@@ -131,7 +132,7 @@ const User = () => {
 
       <section className="shadow-sm rounded bg-white p-2 my-2 flex flex-col sm:flex-row gap-2 items-center">
         <Avatar className="w-24 h-24">
-          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+          <AvatarImage src={photo || defaultFields} alt="@shadcn" />
           <AvatarFallback className="uppercase">SH</AvatarFallback>
         </Avatar>
         <div className="flex flex-col space-y-2 text-center sm:text-left">

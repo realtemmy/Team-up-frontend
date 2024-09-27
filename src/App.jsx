@@ -1,6 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
+import { Toaster } from "@/components/ui/sonner";
+
 import User from "./components/user/User";
 import Navigation from "./components/navigation/Navigation";
 
@@ -19,7 +21,6 @@ import "react-toastify/dist/ReactToastify.css";
 // Assign tasks
 // Header - sidebar, Breadcrumb and navigation.
 // latest project route project/latest -- would get by project creation date only
-
 
 // ====== This night ==========
 // create uploading of images on the server
@@ -41,6 +42,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <Toaster position="top-right" richColors="true" />
       <ToastContainer />
     </>
   );

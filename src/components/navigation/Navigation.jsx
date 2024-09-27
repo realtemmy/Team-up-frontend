@@ -3,7 +3,23 @@ import { Link, Outlet } from "react-router-dom";
 import { LogOut } from "lucide-react";
 import { useSelector } from "react-redux";
 
+import { MenuIcon } from "lucide-react";
+
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+
 import defaultPhoto from "./../../assets/default profile.jpg"
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
 const Navigation = () => {
   // hackathons, projects
@@ -202,7 +218,7 @@ const Navigation = () => {
           </div>
         </div>
         {/* Mobile menu, show/hide based on menu state */}
-        <div
+        {/* <div
           className={`sm:hidden ${isMobileMenuOpen ? "block" : "hidden"}`}
           id="mobile-menu"
         >
@@ -233,7 +249,39 @@ const Navigation = () => {
               Calendar
             </Link>
           </div>
-        </div>
+        </div> */}
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="outline">Open</Button>
+          </SheetTrigger>
+          <SheetContent>
+            <SheetHeader>
+              <SheetTitle>Edit profile</SheetTitle>
+              <SheetDescription>
+                Make changes to your profile here. Click save when you're done.
+              </SheetDescription>
+            </SheetHeader>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="name" className="text-right">
+                  Name
+                </Label>
+                <Input id="name" value="Pedro Duarte" className="col-span-3" />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="username" className="text-right">
+                  Username
+                </Label>
+                <Input id="username" value="@peduarte" className="col-span-3" />
+              </div>
+            </div>
+            <SheetFooter>
+              <SheetClose asChild>
+                <Button type="submit">Save changes</Button>
+              </SheetClose>
+            </SheetFooter>
+          </SheetContent>
+        </Sheet>
       </nav>
       <Outlet />
     </>

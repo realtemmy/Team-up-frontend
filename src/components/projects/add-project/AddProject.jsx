@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { BoxSelect } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,8 +18,17 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useState } from "react";
+
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 
 const AddProject = ({
   formFields,
@@ -30,17 +40,11 @@ const AddProject = ({
   setSkillOpen,
   skill,
   setSkill,
-  setImage,
+  setSkillLevel,
 }) => {
-  const { name, url, desc, collaborators } = formFields;
-  const [selectedImage, setSelectedImage] = useState("");
+  const { name, url, desc, collaborators, summary } = formFields;
 
   const skillsList = ["MongoDB", "React", "PostgreSql", "Node", "Express"];
-
-  const handleImageChange = (event) => {
-    setSelectedImage(URL.createObjectURL(event.target.files[0]));
-    setImage(event.target.files[0])
-  };
 
   return (
     <div className="grid gap-4 px-4 md:px-0 sm:py-4">
@@ -64,6 +68,18 @@ const AddProject = ({
           onChange={handleInputChange}
           type="url"
           name="url"
+        />
+      </div>
+      <div>
+        <Label htmlFor="summary">Project summary</Label>
+        <Input
+          id="summary"
+          value={summary}
+          onChange={handleInputChange}
+          type="text"
+          name="summary"
+          placeholder="A brief summary of the project in less than 50 words"
+          maxLength="50"
         />
       </div>
       <div className="mb-2 flex items-center justify-between">
@@ -143,23 +159,42 @@ const AddProject = ({
           name="desc"
         />
       </div>
-      <section className="shadow-sm rounded bg-white p-2 my-2 flex flex-col sm:flex-row gap-2 items-center">
-        <div>
-          <Input type="file" onChange={handleImageChange} accept="image/*" />
-        </div>
-        {selectedImage && (
-          <Avatar className="w-24 h-24 rounded-none">
-            <AvatarImage src={selectedImage} alt="@shadcn" />
-            <AvatarFallback className="uppercase">SH</AvatarFallback>
-          </Avatar>
-        )}
-
-        {/* <div className="flex flex-col space-y-2 text-center sm:text-left">
-          
-        </div> */}
-      </section>
+      <div>
+        <Select onValueChange={(skillLevel) => setSkillLevel(skillLevel)}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Skill level" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Required skill</SelectLabel>
+              <SelectItem value="all">All</SelectItem>
+              <SelectItem value="beginners">Beginners</SelectItem>
+              <SelectItem value="intermediate">Intermediate</SelectItem>
+              <SelectItem value="advanced">Advanced</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
     </div>
   );
+};
+AddProject.propTypes = {
+  formFields: PropTypes.shape({
+    name: PropTypes.string,
+    url: PropTypes.string,
+    desc: PropTypes.string,
+    collaborators: PropTypes.array,
+    summary: PropTypes.string,
+  }).isRequired,
+  handleInputChange: PropTypes.func.isRequired,
+  handleSkillSelect: PropTypes.func.isRequired,
+  skills: PropTypes.array.isRequired,
+  setSkills: PropTypes.func.isRequired,
+  skillOpen: PropTypes.bool.isRequired,
+  setSkillOpen: PropTypes.func.isRequired,
+  skill: PropTypes.string.isRequired,
+  setSkill: PropTypes.func.isRequired,
+  setSkillLevel: PropTypes.func.isRequired,
 };
 
 export default AddProject;

@@ -12,7 +12,7 @@ const LatestProjects = () => {
         }}
       >
         <section className="border rounded-lg shadow p-2">
-          <div className="flex items-center capitalize gap-2">
+          <div className="flex items-center capitalize gap-2 mb-1">
             <Avatar>
               <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
               <AvatarFallback className="uppercase">CN</AvatarFallback>
@@ -20,22 +20,16 @@ const LatestProjects = () => {
 
             <div className="text-slate-700 font-semibold">realtemmy</div>
           </div>
-          <div
-            className="underline my-2"
-            style={{
-              display: "-webkit-box",
-              WebkitBoxOrient: "vertical",
-              WebkitLineClamp: 2,
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
-          >
+          <hr />
+          <div className="my-1">
             <span className="text-slate-700 font-semibold capitalize">
               Team Up:
-            </span>{" "}
-            A web development project.
+            </span>
+            <span> A web development project.</span>
           </div>
+          <hr className="my-1" />
           <div
+            className="text-sm"
             style={{
               display: "-webkit-box",
               WebkitBoxOrient: "vertical",
@@ -44,13 +38,12 @@ const LatestProjects = () => {
               textOverflow: "ellipsis",
             }}
           >
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae
-            voluptatibus nobis maiores excepturi error est, odit veritatis
-            architecto itaque fugit.
+            "Needing a frontend developer for an amazing project that focuses
+            majorly on healthcare"
           </div>
         </section>
         <section className="border rounded-lg shadow p-2">
-          <div className="flex items-center capitalize gap-2">
+          <div className="flex items-center capitalize gap-2 mb-1">
             <Avatar>
               <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
               <AvatarFallback className="uppercase">CN</AvatarFallback>
@@ -58,22 +51,16 @@ const LatestProjects = () => {
 
             <div className="text-slate-700 font-semibold">realtemmy</div>
           </div>
-          <div
-            className="underline my-2"
-            style={{
-              display: "-webkit-box",
-              WebkitBoxOrient: "vertical",
-              WebkitLineClamp: 2,
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-            }}
-          >
+          <hr />
+          <div className="my-1">
             <span className="text-slate-700 font-semibold capitalize">
               Team Up:
-            </span>{" "}
-            A web development project.
+            </span>
+            <span> A web development project.</span>
           </div>
+          <hr className="my-1" />
           <div
+            className="text-sm"
             style={{
               display: "-webkit-box",
               WebkitBoxOrient: "vertical",
@@ -82,9 +69,8 @@ const LatestProjects = () => {
               textOverflow: "ellipsis",
             }}
           >
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae
-            voluptatibus nobis maiores excepturi error est, odit veritatis
-            architecto itaque fugit.
+            "Needing a frontend developer for an amazing project that focuses on
+            healthcare"
           </div>
         </section>
       </div>

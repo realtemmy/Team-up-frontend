@@ -5,8 +5,14 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { GoogleLogin } from "@react-oauth/google";
 import { Link } from "react-router-dom";
+import axiosService from "@/axios";
 
 const Register = () => {
+  const [formFields, setFormFields] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
   const validateEmail = (email) => {
     const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
     if (!email || email.length < 1) {
@@ -33,6 +39,19 @@ const Register = () => {
   const onRegisterError = (error) => {
     console.log("Google registration error: ", error);
   };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const emailError = validateEmail(email);
+    const passwordError = validatePassword(password);
+    if (emailError || passwordError) {
+      console.log(emailError, passwordError);
+    } else {
+      const res = axiosService.post("/auth/register", { formFields });
+    }
+  };
   return (
     <div
       style={{
@@ -46,7 +65,7 @@ const Register = () => {
     >
       <div className="w-ful bg-white rounded-lg shadow px-8 py-4">
         <h4 className="font-bold text-3xl text-center">Create account</h4>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="mb-4 relative">
             <Label htmlFor="name">Name</Label>
 
@@ -59,12 +78,22 @@ const Register = () => {
               name="email"
               id="email"
               placeholder="Johndoe@mail.com"
+              onChange={(e) =>
+                setFormFields({ ...formFields, email: e.target.value })
+              }
             />
           </div>
           <div className="relative">
             <Label htmlFor="password">Password</Label>
 
-            <Input type="password" name="password" placeholder="********" />
+            <Input
+              type="password"
+              name="password"
+              placeholder="********"
+              onChange={(e) =>
+                setFormFields({ ...formFields, password: e.target.value })
+              }
+            />
           </div>
           <div className="flex items-center justify-between">
             <div className="flex mt-4 gap-1">
@@ -78,7 +107,12 @@ const Register = () => {
           <div className="my-2 text-end w-full">
             <Button className="w-full">Login</Button>
           </div>
-          <p>Already have an account? <Link to="/login" className="underline">Login</Link></p>
+          <p>
+            Already have an account?{" "}
+            <Link to="/login" className="underline">
+              Login
+            </Link>
+          </p>
         </form>
         <hr className="my-4" />
         {/* Google and Github sign in */}

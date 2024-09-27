@@ -31,7 +31,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 import useWindowSize from "@/hooks/windowSize";
 
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import axiosService from "@/axios";
 
 import AddProject from "@/components/projects/add-project/AddProject";
@@ -54,14 +54,14 @@ const UserExperience = () => {
     name: "",
     url: "",
     desc: "",
-    skills: [],
+    summary: "",
     collaborators: [], //add collaborators
   };
   const [value, setValue] = useState("");
   const [skills, setSkills] = useState([]);
   const [skillOpen, setSkillOpen] = useState(false);
   const [skill, setSkill] = useState("");
-  const [image, setImage] = useState({});
+  const [skillLevel, setSkillLevel] = useState("");
   // const [users, setUsers] = useState([]);
 
   const [formFields, setFormFields] = useState(defaultFields);
@@ -79,19 +79,9 @@ const UserExperience = () => {
   };
 
   const handleSubmit = async () => {
-    // convert to formdata
-    const formData = new FormData();
-    formData.append("image", image);
-    formData.append("name", formFields.name);
-    formData.append("url", formFields.url);
-    formData.append("skills", skills);
-    formData.append("collaborators", formFields.collaborators);
-    formData.append("desc", formFields.desc);
-    console.log(formFields, skills, image);
+    console.log({ ...formFields, skills, skillLevel });
     
-    const res = await axiosService.post("/project", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
+    const res = await axiosService.post("/project", { ...formFields, skills, skillLevel });
     toast.success("Project was successfully created");
     //update user's projects in localstorage with response id
     console.log(res);
@@ -122,7 +112,7 @@ const UserExperience = () => {
                   skill={skill}
                   setSkill={setSkill}
                   setSkillOpen={setSkillOpen}
-                  setImage={setImage}
+                  setSkillLevel={setSkillLevel}
                 />
                 <DrawerFooter className="pt-2">
                   <DrawerClose asChild>
@@ -153,6 +143,7 @@ const UserExperience = () => {
                   skill={skill}
                   setSkill={setSkill}
                   setSkillOpen={setSkillOpen}
+                  setSkillLevel={setSkillLevel}
                 />
                 <DialogFooter>
                   <Button type="submit" onClick={handleSubmit}>

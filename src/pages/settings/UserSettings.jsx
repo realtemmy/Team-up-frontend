@@ -22,6 +22,8 @@ import Loader from "@/components/Loader/Loader";
 import defaultProfileImage from "./../../assets/default profile.jpg";
 import axiosService from "@/axios";
 
+import { toast  } from "sonner";
+
 const UserSettings = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
@@ -29,6 +31,8 @@ const UserSettings = () => {
   const [preview, setPreview] = useState("");
   const [photo, setPhoto] = useState({});
   const [open, setOpen] = useState(false);
+
+  // const { toast } = useToast();
 
   const [fields, setFields] = useState({
     password: "",
@@ -135,7 +139,19 @@ const UserSettings = () => {
       </Dialog>
       <div className="grid grid-cols-2 gap-4">
         {loader && <Loader />}
-
+        <Button
+          onClick={() => {
+            toast("Event has been created", {
+              description: "Sunday, December 03, 2023 at 9:00 AM",
+              action: {
+                label: "Undo",
+                onClick: () => console.log("Undo"),
+              },
+            });
+          }}
+        >
+          Show Toast
+        </Button>
         <div className="col-span-2 flex flex-col md:flex-row items-center gap-4 mb-4">
           <div className="relative">
             <Avatar className="w-32 h-32 rounded-full border-2">

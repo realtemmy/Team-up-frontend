@@ -100,8 +100,6 @@ const UserCertification = () => {
   };
 
   const handleSubmit = async () => {
-
-    
     const res = await axiosService.post("/certificate", {
       name: formFields.name,
       url: formFields.url,
