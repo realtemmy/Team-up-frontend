@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+import { PlusIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,9 +12,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import { Skeleton } from "@/components/ui/skeleton";
+
 import Project from "@/features/project/project/project";
 
 const Projects = () => {
+  const navigate = useNavigate();
   // project type - web dev, machine learning, mobile app, data science and ml
   // desc, status(ongoing, completed)
   // create project, edit and delete project, add send user invite to join project, accept invitation to join project
@@ -38,35 +43,46 @@ const Projects = () => {
             <Button>Search</Button>
           </div>
         </div>
-        <div className="flex flex-wrap gap-2">
-          <Select onValueChange={handleChange}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Category" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>All</SelectLabel>
-                <SelectItem value="apple">Apple</SelectItem>
-                <SelectItem value="banana">Banana</SelectItem>
-                <SelectItem value="blueberry">Blueberry</SelectItem>
-                <SelectItem value="grapes">Grapes</SelectItem>
-                <SelectItem value="pineapple">Pineapple</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-          <Select>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Skill level" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Required skill</SelectLabel>
-                <SelectItem value="apple">Beginners</SelectItem>
-                <SelectItem value="banana">Intermediate</SelectItem>
-                <SelectItem value="blueberry">Advanced</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+        <div className="flex justify-between flex-wrap">
+          <div className="flex flex-wrap gap-2">
+            <Select onValueChange={handleChange} className="w-[100px]">
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>All</SelectLabel>
+                  <SelectItem value="apple">Apple</SelectItem>
+                  <SelectItem value="banana">Banana</SelectItem>
+                  <SelectItem value="blueberry">Blueberry</SelectItem>
+                  <SelectItem value="grapes">Grapes</SelectItem>
+                  <SelectItem value="pineapple">Pineapple</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            <Select>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Skill level" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Required skill</SelectLabel>
+                  <SelectItem value="apple">Beginners</SelectItem>
+                  <SelectItem value="banana">Intermediate</SelectItem>
+                  <SelectItem value="blueberry">Advanced</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+          <Button
+            className="bg-teal-800"
+            onClick={() => navigate("/projects/new")}
+          >
+            <span className="me-1">
+              <PlusIcon />
+            </span>
+            Add project
+          </Button>
         </div>
       </form>
       <Project />

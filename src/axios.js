@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "sonner";
 
 const axiosService = axios.create({
   baseURL: "http://localhost:3000/api/v1/",
@@ -43,6 +44,7 @@ axiosService.interceptors.response.use(
     //   return Promise.reject(error.response.data || error.response);
     // }
     // if error === 204 ie delete with no content, just show successful notification
+    toast.error(error.response.data.message);
     return Promise.reject(error.response);
   }
 );

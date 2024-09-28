@@ -252,7 +252,7 @@ const Navigation = () => {
         </div> */}
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline">Open</Button>
+            {/* <Button variant="outline">Open</Button> */}
           </SheetTrigger>
           <SheetContent>
             <SheetHeader>

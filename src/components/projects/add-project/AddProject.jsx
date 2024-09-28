@@ -130,7 +130,7 @@ const AddProject = ({
           </PopoverContent>
         </Popover>
       </div>
-      <div className="flex gap-3">
+      <div className="flex gap-3 flex-wrap">
         {skills.map((el, index) => (
           <div
             className="bg-slate-500 px-1 rounded-sm text-white relative"

@@ -13,6 +13,7 @@ import NotFound from "./pages/Not-found/NotFound";
 import Home from "./pages/home/Home";
 import UserSettings from "./pages/settings/UserSettings";
 import Projects from "./pages/projects/Projects";
+import CreateProject from "./features/project/create-project/CreateProject";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -22,9 +23,6 @@ import "react-toastify/dist/ReactToastify.css";
 // Header - sidebar, Breadcrumb and navigation.
 // latest project route project/latest -- would get by project creation date only
 
-// ====== This night ==========
-// create uploading of images on the server
-// allow uploading of image for project creation, user profile picture
 
 // projects/:projectId - project page to join/view projects
 function App() {
@@ -35,6 +33,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/user" element={<User />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/projects/new" element={<CreateProject />} />
           <Route path="/user/settings" element={<UserSettings />} />
         </Route>
 
@@ -42,7 +41,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <Toaster position="top-right" richColors="true" />
+      <Toaster position="top-right" richColors />
       <ToastContainer />
     </>
   );
