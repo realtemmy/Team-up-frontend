@@ -21,6 +21,7 @@ const MainLayout = () => {
   const location = useLocation();
   useEffect(() => {
     setCrumbs(location.pathname.split("/")?.filter(Boolean));
+    
   }, [location]);
   return (
     <SidebarProvider>

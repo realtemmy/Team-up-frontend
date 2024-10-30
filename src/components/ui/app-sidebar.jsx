@@ -1,4 +1,16 @@
-import { ChevronDown, ChevronsUpDown, ChevronUp, LogOutIcon, User2 } from "lucide-react";
+import { Link } from "react-router-dom";
+import {
+  ChevronDown,
+  ChevronUp,
+  Settings,
+  TrophyIcon,
+  MessagesSquare,
+  MessageCircle,
+  FolderKanban,
+  BringToFront,
+  Server,
+  Route,
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -9,8 +21,12 @@ import {
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
+  SidebarMenuBadge,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 
 import {
@@ -28,15 +44,122 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "./button";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./collapsible";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "./collapsible";
 
 export function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader></SidebarHeader>
       <SidebarContent>
+        {/* messaging */}
+        <SidebarGroup>
+          <SidebarGroupLabel>Messaging</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <Collapsible>
+                <SidebarMenuItem>
+                  <CollapsibleTrigger>
+                    <SidebarMenuButton className="w-[15rem]">
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <MessagesSquare />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Groups</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                      Groups
+                    </SidebarMenuButton>
+                    <SidebarMenuBadge>7</SidebarMenuBadge>
+                  </CollapsibleTrigger>
+
+                  <CollapsibleContent>
+                    <SidebarMenuSub>
+                      <SidebarMenuSubItem>
+                        <SidebarMenuSubButton>Web dev</SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                      <SidebarMenuSubItem>
+                        <SidebarMenuSubButton>
+                          Backend architecture
+                        </SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                    </SidebarMenuSub>
+                  </CollapsibleContent>
+                </SidebarMenuItem>
+              </Collapsible>
+              <Collapsible>
+                <SidebarMenuItem>
+                  <CollapsibleTrigger>
+                    <SidebarMenuButton className="w-[15rem]">
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <MessageCircle />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Chats</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                      Chats
+                    </SidebarMenuButton>
+                    <SidebarMenuBadge>12</SidebarMenuBadge>
+                  </CollapsibleTrigger>
+
+                  <CollapsibleContent>
+                    <SidebarMenuSub>
+                      <SidebarMenuSubItem>
+                        <SidebarMenuSubButton>Dumbor</SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                      <SidebarMenuSubItem>
+                        <SidebarMenuSubButton>David</SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                    </SidebarMenuSub>
+                  </CollapsibleContent>
+                </SidebarMenuItem>
+              </Collapsible>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Teams */}
+        <SidebarGroup>
+          <SidebarGroupLabel>Teams</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/team/team-up-frontend">
+                    <BringToFront /> <span>Team up Frontend</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link to="/team/team-up-frontend">
+                    <Server /> <span>Team up Server</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* Routes */}
         <Collapsible defaultOpen className="group/collapsible">
           <SidebarGroup>
             <SidebarGroupLabel asChild>
@@ -46,11 +169,69 @@ export function AppSidebar() {
               </CollapsibleTrigger>
             </SidebarGroupLabel>
             <CollapsibleContent>
-              <SidebarGroupContent />
+              <SidebarGroupContent>
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link to="/projects">
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <FolderKanban />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Projects</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+
+                        <span>Projects</span>
+                      </Link>
+                    </SidebarMenuButton>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton asChild>
+                        <Link to="/hackathons">
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <TrophyIcon />
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>Hackathons</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+
+                          <span>Hackathons</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton asChild>
+                      <Link to="/user/settings">
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Settings />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Settings</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+
+                        <span>Settings</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarGroupContent>
             </CollapsibleContent>
           </SidebarGroup>
         </Collapsible>
       </SidebarContent>
+      {/* Footer */}
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
