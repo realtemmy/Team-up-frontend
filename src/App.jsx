@@ -4,7 +4,7 @@ import { ToastContainer } from "react-toastify";
 import { Toaster } from "@/components/ui/sonner";
 
 import User from "./components/user/User";
-import Navigation from "./components/navigation/Navigation";
+import MainLayout from "./components/main-layout/MainLayout";
 
 import Chat from "./pages/chat/chat";
 import Login from "./pages/login/Login";
@@ -14,6 +14,8 @@ import Home from "./pages/home/Home";
 import UserSettings from "./pages/settings/UserSettings";
 import Projects from "./pages/projects/Projects";
 import CreateProject from "./features/project/create-project/CreateProject";
+
+
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -29,7 +31,7 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Navigation />}>
+        <Route path="/" element={<MainLayout />}>
           <Route index element={<Home />} />
           <Route path="/user" element={<User />} />
           <Route path="/projects" element={<Projects />} />

@@ -32,7 +32,6 @@ const UserSettings = () => {
   const [photo, setPhoto] = useState({});
   const [open, setOpen] = useState(false);
 
-  // const { toast } = useToast();
 
   const [fields, setFields] = useState({
     password: "",

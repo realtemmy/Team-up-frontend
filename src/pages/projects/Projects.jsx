@@ -66,7 +66,7 @@ const Projects = () => {
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectLabel>Required skill</SelectLabel>
+                  <SelectLabel>All</SelectLabel>
                   <SelectItem value="apple">Beginners</SelectItem>
                   <SelectItem value="banana">Intermediate</SelectItem>
                   <SelectItem value="blueberry">Advanced</SelectItem>

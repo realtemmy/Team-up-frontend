@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Trash2 } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { toast } from "sonner";
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-
 import {
   Card,
   CardContent,
@@ -27,7 +28,6 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-
 import {
   Select,
   SelectContent,
@@ -37,15 +37,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { addProjectId } from "@/redux/user/userSlice";
+
 import axiosService from "@/axios";
 
 const CreateProject = () => {
+  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const [fields, setFields] = useState({
     name: "",
     url: "",
     summary: "",
     desc: "",
+    type: "",
     skillLevel: "",
     skills: [],
     contributors: [],
@@ -54,6 +58,20 @@ const CreateProject = () => {
   const [skill, setSkill] = useState("");
 
   const skillsList = ["react", "nodejs", "mongodb", "express", "postgres"];
+
+  const [inputs, setInputs] = useState([]);
+  const addInputField = () => {
+    setInputs([...inputs, ""]);
+  };
+
+  const handleCollaborator = (index, event) => {
+    const newInputs = [...inputs];
+    newInputs[index] = event.target.value;
+    setInputs(newInputs);
+  };
+  const removeInputField = (index) => {
+    setInputs(inputs.filter((_, i) => i !== index));
+  };
 
   const { name, url, summary, desc } = fields;
   const handleSelectedSkills = (skill) => {
@@ -65,18 +83,21 @@ const CreateProject = () => {
   };
 
   const handleInputChange = (event) => {
-    const {name, value} = event.target;
-    setFields({...fields, [name]: value})
-  }
+    const { name, value } = event.target;
+    setFields({ ...fields, [name]: value });
+  };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async () => {
+    console.log(fields, selectedSkills, inputs);
+
     const res = await axiosService.post("/project", {
       ...fields,
       selectedSkills,
+      collaborators: inputs,
     });
+    dispatch(addProjectId(res.data));
     console.log(res);
-    
+    toast.success("Project created successfully");
   };
   return (
     <div className="flex justify-center items-center mt-10">
@@ -88,16 +109,16 @@ const CreateProject = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form
-            onSubmit={handleSubmit}
-            className="grid gap-2"
-          >
+          <form className="grid gap-2">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Name</Label>
               <Input
                 id="name"
                 placeholder="Name of your project"
                 value={name}
+                name="name"
+                onChange={handleInputChange}
+                required
               />
             </div>
             <div>
@@ -105,9 +126,10 @@ const CreateProject = () => {
               <Input
                 id="url"
                 value={url}
-                  onChange={handleInputChange}
+                onChange={handleInputChange}
                 type="url"
                 name="url"
+                required
               />
             </div>
             <div>
@@ -115,16 +137,37 @@ const CreateProject = () => {
               <Input
                 id="summary"
                 value={summary}
-                  onChange={handleInputChange}
+                onChange={handleInputChange}
                 type="text"
                 name="summary"
                 placeholder="A brief summary of the project in less than 50 words"
                 maxLength="50"
+                required
               />
             </div>
             <div className="flex flex-col space-y-1.5">
+              <Label htmlFor="projectType">Project Type</Label>
+              <Select
+                onValueChange={(value) => setFields({ ...fields, type: value })}
+              >
+                <SelectTrigger id="projectType">
+                  <SelectValue placeholder="Select level" />
+                </SelectTrigger>
+                <SelectContent position="popper">
+                  <SelectItem value="web dev">Web dev</SelectItem>
+                  <SelectItem value="mobile">Mobile app</SelectItem>
+                  <SelectItem value="data-science">Data science</SelectItem>
+                  <SelectItem value="ml">Machine learning</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex flex-col space-y-1.5">
               <Label htmlFor="skillLevel">Skill level</Label>
-              <Select>
+              <Select
+                onValueChange={(value) =>
+                  setFields({ ...fields, skillLevel: value })
+                }
+              >
                 <SelectTrigger id="skillLevel">
                   <SelectValue placeholder="Select level" />
                 </SelectTrigger>
@@ -213,14 +256,37 @@ const CreateProject = () => {
                 </div>
               ))}
             </div>
+            <div>
+              {inputs.map((input, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <span className="font-semibold">{index + 1}</span>
+                  <Input
+                    key={index}
+                    type="text"
+                    value={input}
+                    onChange={(event) => handleCollaborator(index, event)}
+                    // placeholder={`Input ${index + 1}`}
+                    className="my-2"
+                  />
+                  <span>
+                    <Trash2
+                      color="red"
+                      onClick={() => removeInputField(index)}
+                    />
+                  </span>
+                </div>
+              ))}
+              <Button size="sm" type="button" onClick={addInputField}>
+                Add collaborator
+              </Button>
+            </div>
           </form>
         </CardContent>
         <CardFooter className="flex justify-between">
           <Button variant="outline">
-            {" "}
             <ArrowLeft /> Back
           </Button>
-          <Button>Submit</Button>
+          <Button onClick={handleSubmit}>Submit</Button>
         </CardFooter>
       </Card>
     </div>
