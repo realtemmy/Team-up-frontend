@@ -58,7 +58,8 @@ import {
   CollapsibleTrigger,
 } from "./collapsible";
 
-export function AppSidebar() {
+
+const AppSidebar = () => {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader></SidebarHeader>
@@ -71,7 +72,7 @@ export function AppSidebar() {
               <Collapsible>
                 <SidebarMenuItem>
                   <CollapsibleTrigger>
-                    <SidebarMenuButton className="w-[15rem]">
+                    <SidebarMenuButton>
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger asChild>
@@ -104,7 +105,7 @@ export function AppSidebar() {
               <Collapsible>
                 <SidebarMenuItem>
                   <CollapsibleTrigger>
-                    <SidebarMenuButton className="w-[15rem]">
+                    <SidebarMenuButton>
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger asChild>
@@ -237,7 +238,7 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <SidebarMenuButton className="h-[50px]">
+                <SidebarMenuButton>
                   <Avatar className="rounded-md">
                     <AvatarImage
                       src="https://github.com/shadcn.png"
@@ -310,3 +311,5 @@ export function AppSidebar() {
     </Sidebar>
   );
 }
+
+export default AppSidebar;

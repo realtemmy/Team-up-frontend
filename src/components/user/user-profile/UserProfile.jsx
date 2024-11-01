@@ -29,15 +29,15 @@ import {
 
 import { setUser } from "@/redux/user/userSlice";
 
-import defaultImage from "./../../assets/default profile.jpg"
+import defaultImage from "./../../../assets/default profile.jpg";
 import axiosService from "@/axios";
 import useWindowSize from "@/hooks/windowSize";
 
-import EditProfile from "./edit-profile/EditProfile";
-import UserExperience from "./user-experience/UserExperience";
-import UserCertification from "./user-certification/UserCertification";
+import EditProfile from "../edit-profile/EditProfile";
+import UserExperience from "../user-experience/UserExperience";
+import UserCertification from "../user-certification/UserCertification";
 
-const User = () => {
+const UserProfile = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const [edit, setEdit] = useState(false);
@@ -64,11 +64,8 @@ const User = () => {
   };
 
   const { name, email, phone, photo } = user;
-
-  // Settings - profile, password, team
-  // personal information(email, name, photo, phone no, socials), experience, projects
   return (
-    <div className="p-4 bg-gray-100">
+    <div className="p-4 bg-gray-100 border-2">
       <div className="flex items-center justify-between">
         <h4 className="font-bold text-slate-700 text-xl">My profile</h4>
         <TooltipProvider>
@@ -132,7 +129,7 @@ const User = () => {
 
       <section className="shadow-sm rounded bg-white p-2 my-2 flex flex-col sm:flex-row gap-2 items-center">
         <Avatar className="w-24 h-24">
-          <AvatarImage src={photo || defaultFields} alt="@shadcn" />
+          <AvatarImage src={photo || defaultImage} alt="@shadcn" />
           <AvatarFallback className="uppercase">SH</AvatarFallback>
         </Avatar>
         <div className="flex flex-col space-y-2 text-center sm:text-left">
@@ -190,4 +187,4 @@ const User = () => {
   );
 };
 
-export default User;
+export default UserProfile;

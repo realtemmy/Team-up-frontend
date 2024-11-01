@@ -92,7 +92,7 @@ const CreateProject = () => {
 
     const res = await axiosService.post("/project", {
       ...fields,
-      selectedSkills,
+      skills: selectedSkills,
       collaborators: inputs,
     });
     dispatch(addProjectId(res.data));

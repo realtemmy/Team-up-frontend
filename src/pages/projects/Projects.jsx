@@ -76,7 +76,7 @@ const Projects = () => {
           </div>
           <Button
             className="bg-teal-800"
-            onClick={() => navigate("/projects/new")}
+            onClick={() => navigate("new")}
           >
             <span className="me-1">
               <PlusIcon />
