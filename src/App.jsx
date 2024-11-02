@@ -25,6 +25,8 @@ import ProjectPage from "./features/project/project-page/ProjectPage";
 
 // Get all logged in users team
 
+// Send mail to all contributors before their id is added to the project
+
 // projects/:projectId - project page to join/view projects
 function App() {
   return (

@@ -50,7 +50,7 @@ const Project = () => {
           <div className="capitalize truncate text-ellipsis">Skills: {["react", "nodejs", "postgres"].join(", ")}.</div>
           <div className="flex justify-between items-center my-1">
             <div className="capitalize">Status: {project.status}</div>
-            <Button size="sm" onClick={() => navigate(`/project/${project._id}`)}>View</Button>
+            <Button size="sm" onClick={() => navigate(`/projects/${project._id}`)}>View</Button>
           </div>
         </div>
       ))}

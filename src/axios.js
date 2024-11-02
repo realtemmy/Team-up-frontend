@@ -21,7 +21,7 @@ axiosService.interceptors.request.use(
 
 axiosService.interceptors.response.use(
   (response) => {
-    console.log("axios response: ", response);
+    // console.log("axios response: ", response);
     if (response.status < 400) {
       return response.data;
     } else {

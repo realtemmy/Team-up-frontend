@@ -72,7 +72,7 @@ const AppSidebar = () => {
               <Collapsible>
                 <SidebarMenuItem>
                   <CollapsibleTrigger>
-                    <SidebarMenuButton>
+                    <SidebarMenuButton className="w-[15rem]">
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger asChild>
@@ -105,7 +105,7 @@ const AppSidebar = () => {
               <Collapsible>
                 <SidebarMenuItem>
                   <CollapsibleTrigger>
-                    <SidebarMenuButton>
+                    <SidebarMenuButton className="w-[15rem]">
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger asChild>

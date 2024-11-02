@@ -1,12 +1,3 @@
-import { useState } from "react";
-import { ArrowLeft, Trash2 } from "lucide-react";
-import { useDispatch } from "react-redux";
-import { toast } from "sonner";
-
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -37,69 +28,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { addProjectId } from "@/redux/user/userSlice";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
 
-import axiosService from "@/axios";
-
-const CreateProject = () => {
-  const dispatch = useDispatch();
-  const [open, setOpen] = useState(false);
-  const [fields, setFields] = useState({
-    name: "",
-    repoUrl: "",
-    liveUrl: "",
-    summary: "",
-    desc: "",
-    type: "",
-    skillLevel: "",
-    skills: [],
-    contributors: [],
-  });
-  const [selectedSkills, setSelectedSkills] = useState([]);
-  const [skill, setSkill] = useState("");
-
-  const skillsList = ["react", "nodejs", "mongodb", "express", "postgres"];
-
-  const [inputs, setInputs] = useState([]);
-  const addInputField = () => {
-    setInputs([...inputs, ""]);
-  };
-
-  const handleCollaborator = (index, event) => {
-    const newInputs = [...inputs];
-    newInputs[index] = event.target.value;
-    setInputs(newInputs);
-  };
-  const removeInputField = (index) => {
-    setInputs(inputs.filter((_, i) => i !== index));
-  };
-
-  const { name, url, summary, desc } = fields;
-  const handleSelectedSkills = (skill) => {
-    if (!selectedSkills.includes(skill)) {
-      setSelectedSkills((prevEl) => [...prevEl, skill]);
-    }
-    setOpen(false);
-    setSkill("");
-  };
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFields({ ...fields, [name]: value });
-  };
-
-  const handleSubmit = async () => {
-    console.log(fields, selectedSkills, inputs);
-
-    const res = await axiosService.post("/project", {
-      ...fields,
-      skills: selectedSkills,
-      collaborators: inputs,
-    });
-    dispatch(addProjectId(res.data));
-    console.log(res);
-    toast.success("Project created successfully");
-  };
+const EditProject = () => {
   return (
     <div className="flex justify-center items-center mt-10">
       <Card className="min-w-[300px] w-[400px]">
@@ -118,7 +53,7 @@ const CreateProject = () => {
                 placeholder="Name of your project"
                 value={name}
                 name="name"
-                onChange={handleInputChange}
+                // onChange={handleInputChange}
                 required
               />
             </div>
@@ -127,8 +62,8 @@ const CreateProject = () => {
               <Label htmlFor="summary">Project summary</Label>
               <Input
                 id="summary"
-                value={summary}
-                onChange={handleInputChange}
+                // value={summary}
+                // onChange={handleInputChange}
                 type="text"
                 name="summary"
                 placeholder="A brief summary of the project in less than 50 words"
@@ -139,7 +74,7 @@ const CreateProject = () => {
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="projectType">Project Type</Label>
               <Select
-                onValueChange={(value) => setFields({ ...fields, type: value })}
+                // onValueChange={(value) => setFields({ ...fields, type: value })}
               >
                 <SelectTrigger id="projectType">
                   <SelectValue placeholder="Select level" />
@@ -155,9 +90,9 @@ const CreateProject = () => {
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="skillLevel">Skill level</Label>
               <Select
-                onValueChange={(value) =>
-                  setFields({ ...fields, skillLevel: value })
-                }
+                // onValueChange={(value) =>
+                //   setFields({ ...fields, skillLevel: value })
+                // }
               >
                 <SelectTrigger id="skillLevel">
                   <SelectValue placeholder="Select level" />
@@ -174,8 +109,8 @@ const CreateProject = () => {
               <Label htmlFor="repoRrl">Repo Url</Label>
               <Input
                 id="repoUrl"
-                value={url}
-                onChange={handleInputChange}
+                // value={url}
+                // onChange={handleInputChange}
                 type="url"
                 name="repoUrl"
                 required
@@ -185,8 +120,8 @@ const CreateProject = () => {
               <Label htmlFor="liveUrl">Live Url</Label>
               <Input
                 id="liveUrl"
-                value={url}
-                onChange={handleInputChange}
+                // value={url}
+                // onChange={handleInputChange}
                 type="url"
                 name="liveUrl"
                 required
@@ -196,14 +131,14 @@ const CreateProject = () => {
               <Label htmlFor="desc">Description</Label>
               <Textarea
                 id="desc"
-                value={desc}
-                onChange={handleInputChange}
+                // value={desc}
+                // onChange={handleInputChange}
                 name="desc"
               />
             </div>
             <div className="flex justify-between items-center">
               <Label htmlFor="skills">Skills</Label>
-              <Popover open={open} onOpenChange={setOpen}>
+              <Popover open={open} >
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
@@ -220,21 +155,21 @@ const CreateProject = () => {
                     <CommandInput
                       placeholder="Search skill..."
                       className="h-9"
-                      onValueChange={(event) => setSkill(event)}
-                      value={skill}
+                    //   onValueChange={(event) => setSkill(event)}
+                    //   value={skill}
                     />
                     <CommandList>
                       <CommandEmpty className="flex items-center justify-center py-4 gap-4">
                         <p>No skill found</p>
                         <Button
                           variant="outline"
-                          onClick={() => handleSelectedSkills(skill)}
+                        //   onClick={() => handleSelectedSkills(skill)}
                         >
                           Add skill
                         </Button>
                       </CommandEmpty>
                       <CommandGroup>
-                        {skillsList.map((skill, idx) => (
+                        {/* {skillsList.map((skill, idx) => (
                           <CommandItem
                             key={idx}
                             value={skill}
@@ -242,7 +177,7 @@ const CreateProject = () => {
                           >
                             {skill}
                           </CommandItem>
-                        ))}
+                        ))} */}
                       </CommandGroup>
                     </CommandList>
                   </Command>
@@ -250,7 +185,7 @@ const CreateProject = () => {
               </Popover>
             </div>
             <div className="flex gap-3 flex-wrap">
-              {selectedSkills.map((el, index) => (
+              {/* {selectedSkills.map((el, index) => (
                 <div
                   className="bg-slate-500 px-1 rounded-sm text-white relative"
                   key={index}
@@ -267,10 +202,10 @@ const CreateProject = () => {
                     X
                   </sup>
                 </div>
-              ))}
+              ))} */}
             </div>
             <div>
-              {inputs.map((input, index) => (
+              {/* {inputs.map((input, index) => (
                 <div key={index} className="flex items-center gap-2">
                   <span className="font-semibold">{index + 1}</span>
                   <Input
@@ -288,8 +223,8 @@ const CreateProject = () => {
                     />
                   </span>
                 </div>
-              ))}
-              <Button size="sm" type="button" onClick={addInputField}>
+              ))} */}
+              <Button size="sm" type="button" >
                 Add collaborator
               </Button>
             </div>
@@ -299,11 +234,11 @@ const CreateProject = () => {
           <Button variant="outline">
             <ArrowLeft /> Back
           </Button>
-          <Button onClick={handleSubmit}>Submit</Button>
+          <Button>Submit</Button>
         </CardFooter>
       </Card>
     </div>
   );
 };
 
-export default CreateProject;
+export default EditProject;
