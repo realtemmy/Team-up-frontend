@@ -1,24 +1,11 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
+import { useState } from "react";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+
 import {
   Select,
   SelectContent,
@@ -28,216 +15,149 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
 
-const EditProject = () => {
+const EditProject = ({ project }) => {
+  const [fields, setFields] = useState({
+    name: project.name,
+    repoUrl: project.links.repoUrl,
+    liveUrl: project.links.liveUrl,
+    summary: project.summary,
+    desc: project.desc,
+    type: project.type,
+    skillLevel: project.skillLevel,
+    skills: project.skills,
+    contributors: project.contributors,
+  });
+
+  const handleAddSkill = (skill) => {
+    if (fields.skills.contains(skill)) return;
+    fields.skills.push(skill);
+  };
+
+  const removeSkill = (index) => {
+    console.log(index);
+
+    // fields.skills.filter((_, idx) => idx === index);
+    setFields({
+      ...fields,
+      ["skills"]: fields.skills.filter((_, idx) => idx !== index),
+    });
+  };
   return (
-    <div className="flex justify-center items-center mt-10">
-      <Card className="min-w-[300px] w-[400px]">
-        <CardHeader>
-          <CardTitle>Create project</CardTitle>
-          <CardDescription>
-            Deploy your new project in one-click.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form className="grid gap-2">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Name</Label>
-              <Input
-                id="name"
-                placeholder="Name of your project"
-                value={name}
-                name="name"
-                // onChange={handleInputChange}
-                required
-              />
-            </div>
-
-            <div>
-              <Label htmlFor="summary">Project summary</Label>
-              <Input
-                id="summary"
-                // value={summary}
-                // onChange={handleInputChange}
-                type="text"
-                name="summary"
-                placeholder="A brief summary of the project in less than 50 words"
-                maxLength="50"
-                required
-              />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="projectType">Project Type</Label>
-              <Select
-                // onValueChange={(value) => setFields({ ...fields, type: value })}
-              >
-                <SelectTrigger id="projectType">
-                  <SelectValue placeholder="Select level" />
-                </SelectTrigger>
-                <SelectContent position="popper">
-                  <SelectItem value="web dev">Web dev</SelectItem>
-                  <SelectItem value="mobile">Mobile app</SelectItem>
-                  <SelectItem value="data-science">Data science</SelectItem>
-                  <SelectItem value="ml">Machine learning</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="skillLevel">Skill level</Label>
-              <Select
-                // onValueChange={(value) =>
-                //   setFields({ ...fields, skillLevel: value })
-                // }
-              >
-                <SelectTrigger id="skillLevel">
-                  <SelectValue placeholder="Select level" />
-                </SelectTrigger>
-                <SelectContent position="popper">
-                  <SelectItem value="all">All levels</SelectItem>
-                  <SelectItem value="beginners">Beginners</SelectItem>
-                  <SelectItem value="intermediate">Intermediate</SelectItem>
-                  <SelectItem value="advanced">Advanced</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div>
-              <Label htmlFor="repoRrl">Repo Url</Label>
-              <Input
-                id="repoUrl"
-                // value={url}
-                // onChange={handleInputChange}
-                type="url"
-                name="repoUrl"
-                required
-              />
-            </div>
-            <div>
-              <Label htmlFor="liveUrl">Live Url</Label>
-              <Input
-                id="liveUrl"
-                // value={url}
-                // onChange={handleInputChange}
-                type="url"
-                name="liveUrl"
-                required
-              />
-            </div>
-            <div>
-              <Label htmlFor="desc">Description</Label>
-              <Textarea
-                id="desc"
-                // value={desc}
-                // onChange={handleInputChange}
-                name="desc"
-              />
-            </div>
-            <div className="flex justify-between items-center">
-              <Label htmlFor="skills">Skills</Label>
-              <Popover open={open} >
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    role="combobox"
-                    aria-expanded={open}
-                    className="w-[200px] justify-between"
-                  >
-                    <p>Select Skill</p>
-                    {/* <BoxSelect className="ml-2 h-4 w-4 shrink-0 opacity-50" /> */}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-[300px] p-0 me-4">
-                  <Command>
-                    <CommandInput
-                      placeholder="Search skill..."
-                      className="h-9"
-                    //   onValueChange={(event) => setSkill(event)}
-                    //   value={skill}
-                    />
-                    <CommandList>
-                      <CommandEmpty className="flex items-center justify-center py-4 gap-4">
-                        <p>No skill found</p>
-                        <Button
-                          variant="outline"
-                        //   onClick={() => handleSelectedSkills(skill)}
-                        >
-                          Add skill
-                        </Button>
-                      </CommandEmpty>
-                      <CommandGroup>
-                        {/* {skillsList.map((skill, idx) => (
-                          <CommandItem
-                            key={idx}
-                            value={skill}
-                            onSelect={handleSelectedSkills}
-                          >
-                            {skill}
-                          </CommandItem>
-                        ))} */}
-                      </CommandGroup>
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
-            </div>
-            <div className="flex gap-3 flex-wrap">
-              {/* {selectedSkills.map((el, index) => (
-                <div
-                  className="bg-slate-500 px-1 rounded-sm text-white relative"
-                  key={index}
-                >
-                  {el}
-                  <sup
-                    className="cursor-pointer text-white place-content-center font-semibold absolute px-1 h-3 bg-slate-600 rounded-sm"
-                    onClick={() =>
-                      setSelectedSkills((prevSkills) =>
-                        prevSkills.filter((_, idx) => idx !== index)
-                      )
-                    }
-                  >
-                    X
-                  </sup>
-                </div>
-              ))} */}
-            </div>
-            <div>
-              {/* {inputs.map((input, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  <span className="font-semibold">{index + 1}</span>
-                  <Input
-                    key={index}
-                    type="text"
-                    value={input}
-                    onChange={(event) => handleCollaborator(index, event)}
-                    // placeholder={`Input ${index + 1}`}
-                    className="my-2"
-                  />
-                  <span>
-                    <Trash2
-                      color="red"
-                      onClick={() => removeInputField(index)}
-                    />
-                  </span>
-                </div>
-              ))} */}
-              <Button size="sm" type="button" >
-                Add collaborator
-              </Button>
-            </div>
-          </form>
-        </CardContent>
-        <CardFooter className="flex justify-between">
-          <Button variant="outline">
-            <ArrowLeft /> Back
+    <ScrollArea className="h-[calc(65vh)] w-full border-t rounded-sm">
+      <div>
+        <div className="mb-2">
+          <Label htmlFor="name">Name:</Label>
+          <Input type="text" id="name" name="name" value={fields.name} />
+        </div>
+        <div className="mb-2">
+          <Label htmlFor="summary">Summary:</Label>
+          <Input
+            type="text"
+            id="summary"
+            name="summary"
+            value={fields.summary}
+          />
+        </div>
+        <div className="mb-2">
+          <Label htmlFor="repoUrl">Github/Repo Url</Label>
+          <Input
+            type="url"
+            id="repoUrl"
+            name="repoUrl"
+            value={fields.repoUrl}
+          />
+        </div>
+        <div className="mb-2">
+          <Label htmlFor="liveUrl">Live Url:</Label>
+          <Input
+            type="url"
+            id="liveUrl"
+            name="liveUrl"
+            value={fields.liveUrl}
+          />
+        </div>
+        <div className="mb-2">
+          <Select>
+            <SelectTrigger>
+              <SelectValue placeholder="Select skill level" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Levels</SelectLabel>
+                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="beginners">Beginners</SelectItem>
+                <SelectItem value="intermediate">Intermediate</SelectItem>
+                <SelectItem value="advanced">Advanced</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="mb-2">
+          <Select>
+            <SelectTrigger>
+              <SelectValue placeholder="Select project type" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Levels</SelectLabel>
+                <SelectItem value="web dev">Web dev</SelectItem>
+                <SelectItem value="mobile">Mobile</SelectItem>
+                <SelectItem value="data-science">Data science</SelectItem>
+                <SelectItem value="ml">Machine learning</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="mb-2">
+          <Label htmlFor="desc">Description:</Label>
+          <Textarea value={fields.desc} />
+        </div>
+        <div className="grid grid-cols-3 items-center gap-2 mb-2">
+          <Label htmlFor="skills" className="col-span-3 mb-2">
+            Skills:
+          </Label>
+          <Input type="text" className="col-span-2" />
+          <Button size="sm" onClick={handleAddSkill} className="col-span-1">
+            Add Skill
           </Button>
-          <Button>Submit</Button>
-        </CardFooter>
-      </Card>
-    </div>
+          <div className="col-span-3 mt-1">
+            {fields.skills.map((skill, index) => (
+              <>
+                <Badge key={index}>{skill}</Badge>
+                <sup
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 px-1 py-0 rounded-md cursor-pointer"
+                  onClick={() => removeSkill(index)}
+                >
+                  x
+                </sup>
+              </>
+            ))}
+          </div>
+        </div>
+        <div className="mb-2 grid grid-cols-3 items-center gap-2">
+          <Label htmlFor="collaborators" className="col-span-3">
+            Collaborators:
+          </Label>
+          <Input type="email" className="col-span-2" />
+          <Button size="sm">Add Collaborator</Button>
+          <div className="col-span-3 mt-1 flex flex-wrap">
+            {[
+              "temiloluwaOgunti8@gmail.com",
+              "temmy4jamb@gmail.com",
+              "test@mail.com",
+            ].map((skill, index) => (
+              <div key={index}>
+                <Badge>{skill}</Badge>
+                <sup className="bg-primary text-primary-foreground hover:bg-primary/90 px-1 py-0 rounded-md cursor-pointer">
+                  x
+                </sup>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </ScrollArea>
   );
 };
 
