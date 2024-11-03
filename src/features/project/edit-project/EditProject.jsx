@@ -25,9 +25,10 @@ const EditProject = ({
   setSkill,
   skill,
 }) => {
+  
   return (
-    <ScrollArea className="h-[calc(65vh)] w-full border-t rounded-sm">
-      <div>
+    <ScrollArea className="h-[calc(55vh)] md:h-[calc(65vh)] w-full border-t rounded-sm">
+      <div className="mx-4 md:mx-0">
         <div className="mb-2">
           <Label htmlFor="name">Name:</Label>
           <Input
@@ -49,7 +50,7 @@ const EditProject = ({
           />
         </div>
         <div className="mb-2">
-          <Label htmlFor="repoUrl">Github/Repo Url</Label>
+          <Label htmlFor="repoUrl">Github/Repo Url:</Label>
           <Input
             type="url"
             id="repoUrl"
@@ -166,6 +167,26 @@ const EditProject = ({
               </div>
             ))}
           </div>
+        </div>
+        <div className="mb-2">
+          <Label htmlFor="status">Status:</Label>
+          <Select
+            value={fields.status}
+            onValueChange={(value) => setFields({ ...fields, status: value })}
+            // className="col-span-2 border-2"
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Project status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Project status</SelectLabel>
+                <SelectItem value="ongoing">Ongoing</SelectItem>
+                <SelectItem value="completed">Completed</SelectItem>
+                <SelectItem value="paused">Paused</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
         </div>
       </div>
     </ScrollArea>

@@ -33,6 +33,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+
+import useWindowSize from "@/hooks/windowSize";
 
 import EditProject from "../edit-project/EditProject";
 
@@ -42,7 +54,21 @@ const ProjectPage = () => {
   const user = useSelector((state) => state.user.user._id);
   const [project, setProject] = useState(null); // Initialize as null
   const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
+  const [width] = useWindowSize();
+
+  const [fields, setFields] = useState({
+    name: "",
+    repoUrl: "",
+    liveUrl: "",
+    summary: "",
+    desc: "",
+    type: "",
+    skillLevel: "",
+    skills: [],
+    contributors: [],
+    status: "",
+  });
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -60,18 +86,6 @@ const ProjectPage = () => {
     fetchProduct();
   }, [projectId]);
 
-  const [fields, setFields] = useState({
-    name: project?.name,
-    repoUrl: project?.links.repoUrl,
-    liveUrl: project?.links.liveUrl,
-    summary: project?.summary,
-    desc: project?.desc,
-    type: project?.type,
-    skillLevel: project?.skillLevel,
-    skills: project?.skills,
-    contributors: project?.contributors,
-  });
-
   useEffect(() => {
     if (project) {
       setFields({
@@ -84,6 +98,7 @@ const ProjectPage = () => {
         skillLevel: project.skillLevel || "",
         skills: project.skills || [],
         contributors: project.contributors || [],
+        status: project.status || "",
       });
     }
   }, [project]);
@@ -113,11 +128,11 @@ const ProjectPage = () => {
 
   const handleRequestToJoin = () => {};
 
-  const handleSubmitProjectEdit = async() => {
+  const handleSubmitProjectEdit = async () => {
     const res = await axiosService.patch(`/project/${projectId}`, fields);
     console.log(res);
     setOpen(false);
-  }
+  };
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -254,13 +269,46 @@ const ProjectPage = () => {
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
-        ) : (
-          <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
+        ) : width < 768 ? (
+          <Drawer>
+            <DrawerTrigger>
               <Button
                 className="bg-orange-500 hover:bg-orange-500/90"
                 // onClick={handleEditProject}
               >
+                <Edit /> Edit
+              </Button>
+            </DrawerTrigger>
+            <DrawerContent>
+              <DrawerHeader>
+                <DrawerTitle>Edit Project</DrawerTitle>
+                <DrawerDescription className="text-start">
+                  Make changes to your profile here
+                </DrawerDescription>
+              </DrawerHeader>
+              <EditProject
+                fields={fields}
+                handleInputChange={handleInputChange}
+                handleAddSkill={handleAddSkill}
+                removeSkill={removeSkill}
+                setFields={setFields}
+                skill={skill}
+                setSkill={setSkill}
+              />
+              <DrawerFooter>
+                <Button onClick={handleSubmitProjectEdit}>Submit</Button>
+                <DrawerClose>
+                  <Button variant="outline" className="w-full">
+                    Cancel
+                  </Button>
+                </DrawerClose>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
+        ) : (
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+              <Button className="bg-orange-500 hover:bg-orange-500/90">
                 <Edit /> Edit
               </Button>
             </DialogTrigger>
@@ -277,7 +325,7 @@ const ProjectPage = () => {
                 handleInputChange={handleInputChange}
                 handleAddSkill={handleAddSkill}
                 removeSkill={removeSkill}
-                setFields={setFields} 
+                setFields={setFields}
                 skill={skill}
                 setSkill={setSkill}
               />
