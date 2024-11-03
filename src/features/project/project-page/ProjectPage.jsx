@@ -59,9 +59,64 @@ const ProjectPage = () => {
     fetchProduct();
   }, [projectId]);
 
-  const handleEditProject = () => {};
+  const [fields, setFields] = useState({
+    name: project?.name,
+    repoUrl: project?.links.repoUrl,
+    liveUrl: project?.links.liveUrl,
+    summary: project?.summary,
+    desc: project?.desc,
+    type: project?.type,
+    skillLevel: project?.skillLevel,
+    skills: project?.skills,
+    contributors: project?.contributors,
+  });
+
+  useEffect(() => {
+    if (project) {
+      setFields({
+        name: project.name,
+        repoUrl: project.links?.repoUrl || "",
+        liveUrl: project.links?.liveUrl || "",
+        summary: project.summary || "",
+        desc: project.desc || "",
+        type: project.type || "",
+        skillLevel: project.skillLevel || "",
+        skills: project.skills || [],
+        contributors: project.contributors || [],
+      });
+    }
+  }, [project]);
+
+  const [skill, setSkill] = useState("");
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFields({ ...fields, [name]: value });
+  };
+  const removeSkill = (index) => {
+    setFields((prevFields) => ({
+      ...prevFields,
+      skills: prevFields.skills.filter((_, idx) => idx !== index),
+    }));
+  };
+
+  const handleAddSkill = () => {
+    if (skill && !fields.skills.includes(skill)) {
+      setFields({
+        ...fields,
+        skills: [...fields.skills, skill],
+      });
+      setSkill("");
+    }
+  };
+
   const handleRequestToJoin = () => {};
 
+  const handleSubmitProjectEdit = async() => {
+    const res = await axiosService.patch(`/project/${projectId}`, fields);
+    console.log(res);
+    
+  }
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -203,7 +258,7 @@ const ProjectPage = () => {
             <DialogTrigger asChild>
               <Button
                 className="bg-orange-500 hover:bg-orange-500/90"
-                onClick={handleEditProject}
+                // onClick={handleEditProject}
               >
                 <Edit /> Edit
               </Button>
@@ -216,9 +271,19 @@ const ProjectPage = () => {
                   done.
                 </DialogDescription>
               </DialogHeader>
-              <EditProject project={project} />
+              <EditProject
+                fields={fields}
+                handleInputChange={handleInputChange}
+                handleAddSkill={handleAddSkill}
+                removeSkill={removeSkill}
+                setFields={setFields}
+                skill={skill}
+                setSkill={setSkill}
+              />
               <DialogFooter>
-                <Button type="submit">Save changes</Button>
+                <Button type="submit" onClick={handleSubmitProjectEdit}>
+                  Save changes
+                </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>

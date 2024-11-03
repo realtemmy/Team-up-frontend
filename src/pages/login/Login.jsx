@@ -74,7 +74,7 @@ const Login = () => {
 
     const res = await axiosService.post("/user/login", { email, password });
     const { token, user } = res;
-    console.log(token, user);
+    localStorage.setItem("token", token);
     dispatch(setUser(user));
     toast.success("Login successful");
     navigate("/");

@@ -139,6 +139,7 @@ const CreateProject = () => {
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="projectType">Project Type</Label>
               <Select
+              value={fields.type}
                 onValueChange={(value) => setFields({ ...fields, type: value })}
               >
                 <SelectTrigger id="projectType">
@@ -155,6 +156,7 @@ const CreateProject = () => {
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="skillLevel">Skill level</Label>
               <Select
+              value={fields.skillLevel}
                 onValueChange={(value) =>
                   setFields({ ...fields, skillLevel: value })
                 }

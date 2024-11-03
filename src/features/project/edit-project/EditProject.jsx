@@ -16,39 +16,27 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const EditProject = ({ project }) => {
-  const [fields, setFields] = useState({
-    name: project.name,
-    repoUrl: project.links.repoUrl,
-    liveUrl: project.links.liveUrl,
-    summary: project.summary,
-    desc: project.desc,
-    type: project.type,
-    skillLevel: project.skillLevel,
-    skills: project.skills,
-    contributors: project.contributors,
-  });
-
-  const handleAddSkill = (skill) => {
-    if (fields.skills.contains(skill)) return;
-    fields.skills.push(skill);
-  };
-
-  const removeSkill = (index) => {
-    console.log(index);
-
-    // fields.skills.filter((_, idx) => idx === index);
-    setFields({
-      ...fields,
-      ["skills"]: fields.skills.filter((_, idx) => idx !== index),
-    });
-  };
+const EditProject = ({
+  fields,
+  handleInputChange,
+  handleAddSkill,
+  removeSkill,
+  setFields,
+  setSkill,
+  skill,
+}) => {
   return (
     <ScrollArea className="h-[calc(65vh)] w-full border-t rounded-sm">
       <div>
         <div className="mb-2">
           <Label htmlFor="name">Name:</Label>
-          <Input type="text" id="name" name="name" value={fields.name} />
+          <Input
+            type="text"
+            id="name"
+            name="name"
+            value={fields.name}
+            onChange={handleInputChange}
+          />
         </div>
         <div className="mb-2">
           <Label htmlFor="summary">Summary:</Label>
@@ -57,6 +45,7 @@ const EditProject = ({ project }) => {
             id="summary"
             name="summary"
             value={fields.summary}
+            onChange={handleInputChange}
           />
         </div>
         <div className="mb-2">
@@ -66,6 +55,7 @@ const EditProject = ({ project }) => {
             id="repoUrl"
             name="repoUrl"
             value={fields.repoUrl}
+            onChange={handleInputChange}
           />
         </div>
         <div className="mb-2">
@@ -75,10 +65,17 @@ const EditProject = ({ project }) => {
             id="liveUrl"
             name="liveUrl"
             value={fields.liveUrl}
+            onChange={handleInputChange}
           />
         </div>
         <div className="mb-2">
-          <Select>
+          <Label>Skill Level:</Label>
+          <Select
+            value={fields.skillLevel}
+            onValueChange={(value) =>
+              setFields({ ...fields, skillLevel: value })
+            }
+          >
             <SelectTrigger>
               <SelectValue placeholder="Select skill level" />
             </SelectTrigger>
@@ -94,7 +91,11 @@ const EditProject = ({ project }) => {
           </Select>
         </div>
         <div className="mb-2">
-          <Select>
+          <Label>Project type:</Label>
+          <Select
+            value={fields.type}
+            onValueChange={(value) => setFields({ ...fields, type: value })}
+          >
             <SelectTrigger>
               <SelectValue placeholder="Select project type" />
             </SelectTrigger>
@@ -111,13 +112,23 @@ const EditProject = ({ project }) => {
         </div>
         <div className="mb-2">
           <Label htmlFor="desc">Description:</Label>
-          <Textarea value={fields.desc} />
+          <Textarea
+            value={fields.desc}
+            onChange={handleInputChange}
+            name="desc"
+            id="desc"
+          />
         </div>
         <div className="grid grid-cols-3 items-center gap-2 mb-2">
           <Label htmlFor="skills" className="col-span-3 mb-2">
             Skills:
           </Label>
-          <Input type="text" className="col-span-2" />
+          <Input
+            type="text"
+            className="col-span-2"
+            onChange={(event) => setSkill(event.target.value)}
+            value={skill}
+          />
           <Button size="sm" onClick={handleAddSkill} className="col-span-1">
             Add Skill
           </Button>
