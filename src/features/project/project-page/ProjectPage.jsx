@@ -42,6 +42,7 @@ const ProjectPage = () => {
   const user = useSelector((state) => state.user.user._id);
   const [project, setProject] = useState(null); // Initialize as null
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false)
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -115,7 +116,7 @@ const ProjectPage = () => {
   const handleSubmitProjectEdit = async() => {
     const res = await axiosService.patch(`/project/${projectId}`, fields);
     console.log(res);
-    
+    setOpen(false);
   }
   if (loading) {
     return <p>Loading...</p>;
@@ -254,7 +255,7 @@ const ProjectPage = () => {
             </AlertDialogContent>
           </AlertDialog>
         ) : (
-          <Dialog>
+          <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
               <Button
                 className="bg-orange-500 hover:bg-orange-500/90"
@@ -276,7 +277,7 @@ const ProjectPage = () => {
                 handleInputChange={handleInputChange}
                 handleAddSkill={handleAddSkill}
                 removeSkill={removeSkill}
-                setFields={setFields}
+                setFields={setFields} 
                 skill={skill}
                 setSkill={setSkill}
               />
