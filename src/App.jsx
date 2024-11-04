@@ -26,6 +26,7 @@ import ProjectPage from "./features/project/project-page/ProjectPage";
 // Get all logged in users team
 
 // Send mail to all contributors before their id is added to the project
+// Get all projects a user belongs to and show in team(sidebar)
 
 // projects/:projectId - project page to join/view projects
 function App() {
@@ -40,9 +41,8 @@ function App() {
           <Route path="/chat" element={<Chat />} />
 
           <Route path="/projects" element={<Projects />} />
-            <Route path="/projects/new" element={<CreateProject />} />
-            <Route path="/projects/:projectId" element={<ProjectPage />} />
-          
+          <Route path="/projects/new" element={<CreateProject />} />
+          <Route path="/projects/:projectId" element={<ProjectPage />} />
         </Route>
 
         <Route path="/login" element={<Login />} />

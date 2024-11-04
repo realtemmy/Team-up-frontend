@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ChevronDown,
@@ -9,7 +10,6 @@ import {
   FolderKanban,
   BringToFront,
   Server,
-  Route,
 } from "lucide-react";
 
 import {
@@ -57,9 +57,19 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "./collapsible";
+import axiosService from "@/axios";
 
 
 const AppSidebar = () => {
+  const [teams, setTeams] = useState([]);
+  useEffect(() => {
+    const fetchTeams = async() => {
+      const res = await axiosService.get("/project/user");
+      setTeams(res.data)
+    }
+    fetchTeams();
+  }, []);
+  
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader></SidebarHeader>
@@ -142,20 +152,23 @@ const AppSidebar = () => {
           <SidebarGroupLabel>Teams</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link to="/team/team-up-frontend">
-                    <BringToFront /> <span>Team up Frontend</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
+              {teams.map((team, idx) => (
+                <SidebarMenuItem key={idx}>
+                  <SidebarMenuButton asChild>
+                    <Link to={`/team/${team._id}`}>
+                      <BringToFront /> <span>{team.name}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+
+              {/* <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <Link to="/team/team-up-frontend">
                     <Server /> <span>Team up Server</span>
                   </Link>
                 </SidebarMenuButton>
-              </SidebarMenuItem>
+              </SidebarMenuItem> */}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
