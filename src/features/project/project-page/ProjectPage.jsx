@@ -7,10 +7,9 @@ import {
   CirclePause,
   CircleX,
   Edit,
+  Settings,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import {
@@ -43,10 +42,29 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+
 
 import useWindowSize from "@/hooks/windowSize";
+import { toast } from "sonner";
 
 import EditProject from "../edit-project/EditProject";
+import Loader from "@/components/Loader/Loader";
 
 import axiosService from "@/axios";
 const ProjectPage = () => {
@@ -101,8 +119,9 @@ const ProjectPage = () => {
         status: project.status || "",
       });
     }
+    
   }, [project]);
-
+  
   const [skill, setSkill] = useState("");
 
   const handleInputChange = (event) => {
@@ -126,14 +145,19 @@ const ProjectPage = () => {
     }
   };
 
-  const handleRequestToJoin = () => {};
+  const handleRequestToJoin = async () => {
+    const res = await axiosService.patch(`/project/${projectId}/join-request`);
+    toast.success(res.message);
+  };
 
   const handleSubmitProjectEdit = async () => {
     const res = await axiosService.patch(`/project/${projectId}`, fields);
     console.log(res);
     setOpen(false);
+    toast.success("Project edited successfully")
   };
   if (loading) {
+    // make it a skeleton page
     return <p>Loading...</p>;
   }
 
@@ -143,13 +167,46 @@ const ProjectPage = () => {
 
   return (
     <div className="grid grid-cols-2">
+      <div className="col-span-2 ml-auto">
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="ghost">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Settings />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Project settings</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </Button>
+          </SheetTrigger>
+          <SheetContent>
+            <SheetHeader>
+              <SheetTitle>Edit profile</SheetTitle>
+              <SheetDescription>
+                Make changes to your profile here. Click save when you're done.
+              </SheetDescription>
+            </SheetHeader>
+            {/* Accept users in project, remove users etc */}
+            <div className="grid gap-4 py-4">Tadaa!!!</div>
+            <SheetFooter>
+              <SheetClose asChild>
+                <Button type="submit">Save changes</Button>
+              </SheetClose>
+            </SheetFooter>
+          </SheetContent>
+        </Sheet>
+      </div>
       <div className="col-span-2 flex items-center justify-between">
         <h3 className="font-semibold text-2xl col-span-2 text-center">
           {project.name}
         </h3>
         <div>
           Project type:
-          <span className="font-medium capitalize">{project.type}</span>
+          <span className="font-medium capitalize"> {project.type}</span>
         </div>
       </div>
 
@@ -192,7 +249,7 @@ const ProjectPage = () => {
       </div>
 
       <div className="col-span-2 grid grid-cols-2 mt-2">
-        <div>
+        <div className="col-span-2 sm:col-span-1">
           <p className="font-medium">Skills:</p>
           <p className="inline-block capitalize">
             {project.skills?.join(", ") || "Not specified"}
@@ -202,7 +259,7 @@ const ProjectPage = () => {
             {project.skillLevel || "Not specified"}
           </div>
         </div>
-        <div>
+        <div className="col-span-2 sm:col-span-1">
           <p className="font-medium">Links:</p>
           <div className="my-1">
             Github:
@@ -250,22 +307,24 @@ const ProjectPage = () => {
             <CircleX color="red" />
           )}
         </div>
-        {!project.user === user ? (
+        {project.user !== user ? (
           <AlertDialog>
             <AlertDialogTrigger>
-              <Button onClick={handleRequestToJoin}>Request to join</Button>
+              <Button>Request to join</Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
                 <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                 <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  your account and remove your data from our servers.
+                  This action cannot be undone. Project leader will review and
+                  let you in on the project.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction>Continue</AlertDialogAction>
+                <AlertDialogAction onClick={handleRequestToJoin}>
+                  Continue
+                </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
