@@ -14,6 +14,9 @@ import UserSettings from "./pages/settings/UserSettings";
 import Projects from "./pages/projects/Projects";
 import CreateProject from "./features/project/create-project/CreateProject";
 
+import Posts from "./pages/posts/Posts";
+import NewsFeed from "./pages/News-feed/NewsFeed";
+
 import "react-toastify/dist/ReactToastify.css";
 import ProjectPage from "./features/project/project-page/ProjectPage";
 
@@ -25,10 +28,9 @@ import ProjectPage from "./features/project/project-page/ProjectPage";
 
 // Get all logged in users team
 
+// Add Bookmarked section
 // Send mail to all contributors before their id is added to the project
-// Get all projects a user belongs to and show in team(sidebar)
-
-// projects/:projectId - project page to join/view projects
+// Chat feature/functionality
 function App() {
   return (
     <>
@@ -40,6 +42,8 @@ function App() {
 
           <Route path="/chat" element={<Chat />} />
 
+          <Route path="/posts" element={<Posts />} />
+          <Route path="/feed" element={<NewsFeed />} />
           <Route path="/projects" element={<Projects />} />
           <Route path="/projects/new" element={<CreateProject />} />
           <Route path="/projects/:projectId" element={<ProjectPage />} />

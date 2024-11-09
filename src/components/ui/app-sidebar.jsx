@@ -9,7 +9,7 @@ import {
   MessageCircle,
   FolderKanban,
   BringToFront,
-  Server,
+  SquarePlus,
 } from "lucide-react";
 
 import {
@@ -59,17 +59,16 @@ import {
 } from "./collapsible";
 import axiosService from "@/axios";
 
-
 const AppSidebar = () => {
   const [teams, setTeams] = useState([]);
   useEffect(() => {
-    const fetchTeams = async() => {
+    const fetchTeams = async () => {
       const res = await axiosService.get("/project/user");
-      setTeams(res.data)
-    }
+      setTeams(res.data);
+    };
     fetchTeams();
   }, []);
-  
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader></SidebarHeader>
@@ -204,6 +203,24 @@ const AppSidebar = () => {
                     </SidebarMenuButton>
                     <SidebarMenuItem>
                       <SidebarMenuButton asChild>
+                        <Link to="/feed">
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <SquarePlus />
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>Posts</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+
+                          <span>Feed</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton asChild>
                         <Link to="/hackathons">
                           <TooltipProvider>
                             <Tooltip>
@@ -323,6 +340,6 @@ const AppSidebar = () => {
       </SidebarFooter>
     </Sidebar>
   );
-}
+};
 
 export default AppSidebar;
