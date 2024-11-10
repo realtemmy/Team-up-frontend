@@ -1,94 +1,82 @@
+import { useEffect, useState } from "react";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
+
+import Loader from "@/components/Loader/Loader";
 import Post from "@/features/post/Post";
+import axiosService from "@/axios";
+import { Button } from "@/components/ui/button";
+import { PlusIcon } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const NewsFeed = () => {
-  const posts = [
-    {
-      id: 1,
-      user: {
-        name: "John Doe",
-        avatar: "https://via.placeholder.com/150",
-      },
-      content: "Loving this new feature! Excited to see more updates.",
-      createdAt: "2024-11-09T12:34:56Z",
-      likes: 23,
-      comments: [
-        {
-          id: 1,
-          user: {
-            name: "Jane Smith",
-            avatar: "https://via.placeholder.com/150",
-          },
-          content: "Totally agree! This feature is amazing.",
-          createdAt: "2024-11-09T13:00:00Z",
-        },
-        {
-          id: 2,
-          user: {
-            name: "Alex Brown",
-            avatar: "https://via.placeholder.com/150",
-          },
-          content: "Can’t wait to try it myself.",
-          createdAt: "2024-11-09T13:15:00Z",
-        },
-      ],
-    },
-    {
-      id: 2,
-      user: {
-        name: "Sarah Lee",
-        avatar: "https://via.placeholder.com/150",
-      },
-      content: "Anyone up for a coding challenge this weekend?",
-      createdAt: "2024-11-08T08:15:45Z",
-      likes: 17,
-      comments: [
-        {
-          id: 1,
-          user: {
-            name: "Tom White",
-            avatar: "https://via.placeholder.com/150",
-          },
-          content: "Count me in!",
-          createdAt: "2024-11-08T09:00:00Z",
-        },
-      ],
-    },
-    {
-      id: 3,
-      user: {
-        name: "Michael Green",
-        avatar: "https://via.placeholder.com/150",
-      },
-      content: "Just finished a great workout! Feeling refreshed.",
-      createdAt: "2024-11-07T14:25:30Z",
-      likes: 42,
-      comments: [
-        {
-          id: 1,
-          user: {
-            name: "Lisa Blue",
-            avatar: "https://via.placeholder.com/150",
-          },
-          content: "Nice! Keep it up.",
-          createdAt: "2024-11-07T15:30:00Z",
-        },
-        {
-          id: 2,
-          user: {
-            name: "Chris Red",
-            avatar: "https://via.placeholder.com/150",
-          },
-          content: "Great job!",
-          createdAt: "2024-11-07T16:00:00Z",
-        },
-      ],
-    },
-  ];
+  const [posts, setPosts] = useState([]);
+    const [post, setPost] = useState("");
+  const [loader, setLoader] = useState(false);
+
+  const handlePostSubmit = async () => {
+    const res = await axiosService.post("/posts", {
+      post,
+    });
+    setPost("");
+    console.log(res);
+  };
+  useEffect(() => {
+    const getAllPosts = async () => {
+      setLoader(true)
+      const { data } = await axiosService.get("/posts");
+      console.log(data);
+      
+      setPosts(data);
+      setLoader(false);
+    };
+    getAllPosts();
+  }, []);
   return (
-    <div className="space-y-4 max-w-2xl mx-auto">
-      {posts.map((post) => (
-        <Post key={post.id} post={post} />
-      ))}
+    <div>
+      <nav className="flex justify-between my-4">
+        <h4>This is the post page</h4>
+        <Dialog>
+          <DialogTrigger>
+            <Button size="sm">
+              <PlusIcon />
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Create Post</DialogTitle>
+            </DialogHeader>
+            <ScrollArea>
+              <div>
+                <Textarea
+                  placeholder="What's happening?"
+                  value={post}
+                  onChange={(event) => setPost(event.target.value)}
+                />
+              </div>
+            </ScrollArea>
+
+            <DialogFooter>
+              <Button type="submit" onClick={handlePostSubmit}>
+                Post
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </nav>
+      <div className="space-y-4 max-w-2xl mx-auto">
+        {posts.map((post, idx) => (
+          <Post key={idx} post={post} />
+        ))}
+      </div>
     </div>
   );
 };

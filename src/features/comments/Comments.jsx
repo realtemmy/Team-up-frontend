@@ -6,9 +6,8 @@ const Comments = ({comments}) => {
     <div className="p-4 space-y-2 bg-gray-50">
       {comments.map((comment) => (
         <div key={comment.id} className="flex items-start space-x-2">
-          {/* <Avatar src={comment.user.avatar} className="h-8 w-8" /> */}
-          <Avatar>
-            <AvatarImage src={comment.user.avatar} alt="@shadcn" />
+          <Avatar >
+            <AvatarImage src={comment.user.avatar}  alt="@shadcn" />
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <div>

@@ -1,9 +1,8 @@
+import { useState } from "react";
 import {
   Heart,
-  MessageSquare,
   Ellipsis,
   Edit,
-  Trash,
   Trash2,
   MessageCircle,
   SendHorizonal,
@@ -27,19 +26,24 @@ import {
 } from "@/components/ui/popover";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
+import Comments from "../comments/Comments";
+
+import defaultImage from "./../../assets/default profile.jpg"
 
 const Post = ({ post }) => {
+  const [comment, setComment] = useState(false);
+  // Fetch comments from postId
   return (
     <Card className="border shadow-lg rounded-lg">
       <CardHeader className="flex space-x-4 p-4">
         <div className="flex justify-between">
-          <div className="flex gap-2">
+          <div className="flex items-center gap-2">
             <Avatar>
-              <AvatarImage src={post.user.avatar} alt="@shadcn" />
+              <AvatarImage src={post.userId.photo || defaultImage} alt="@shadcn" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <div>
-              <h3 className="font-semibold">{post.user.name}</h3>
+              <h3 className="font-semibold">{post.userId.name}</h3>
               <p className="text-sm text-gray-500">{post.createdAt}</p>
             </div>
           </div>
@@ -70,12 +74,9 @@ const Post = ({ post }) => {
       </CardHeader>
       <CardContent className="p-4">
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet impedit
-          cum explicabo architecto voluptates harum? Cumque laborum explicabo
-          magni provident? Dolor distinctio et nobis, quam dicta odio, aliquam
-          iusto, minus ipsa sit recusandae. Fuga porro quisquam qui fugit
-          quibusdam, aut est odio in accusantium dolore quo possimus, provident
-          iste voluptatem?
+          {
+            post.post
+          }
         </p>
         <ScrollArea className="w-full">
           <div className="grid grid-flow-col auto-cols-[minmax(200px,_1fr)] w-full gap-2 p-4 overflow-x-auto">
@@ -104,7 +105,7 @@ const Post = ({ post }) => {
               <Heart />
             </div>
             <div className="cursor-pointer">
-              <MessageCircle />
+              <MessageCircle onClick={()=> setComment(!comment)} />
             </div>
             <div className="cursor-pointer">
               <SendHorizonal />
@@ -120,7 +121,7 @@ const Post = ({ post }) => {
           </div>
         </section>
         <section className="my-2 text-sm md:text-base flex justify-between items-center">
-          <div className="font-medium">{post.likes} likes</div>
+          <div className="font-medium">{post.likesCount} likes</div>
           <div className="flex gap-2">
             <span>{post.comments.length} comments &#183; </span>
             <span>4 reposts</span>
@@ -130,7 +131,7 @@ const Post = ({ post }) => {
           <Input placeholder="Add a comment..." />
         </div>
       </CardFooter>
-      {/* <Comments comments={post.comments} /> */}
+      {/* {comment && <Comments comments={post.comments} />} */}
     </Card>
   );
 };
