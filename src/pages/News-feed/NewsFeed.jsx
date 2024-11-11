@@ -33,7 +33,7 @@ const NewsFeed = () => {
     const getAllPosts = async () => {
       setLoader(true)
       const { data } = await axiosService.get("/posts");
-      console.log(data);
+      // console.log(data);
       
       setPosts(data);
       setLoader(false);

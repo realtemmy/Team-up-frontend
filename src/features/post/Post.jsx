@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Card,
   CardContent,
@@ -26,20 +27,41 @@ import {
 } from "@/components/ui/popover";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+
 import Comments from "../comments/Comments";
 
-import defaultImage from "./../../assets/default profile.jpg"
+import defaultImage from "./../../assets/default profile.jpg";
+import axiosService from "@/axios";
 
 const Post = ({ post }) => {
-  const [comment, setComment] = useState(false);
+  const [showComment, setShowComment] = useState(false);
+  const [comments, setComments] = useState([]);
   // Fetch comments from postId
+  const handleCommentsDisplay = async () => {
+    // Add skeleton before comment arrives
+    const { data } = await axiosService.get(`/posts/${post._id}/comments`);
+    setComments(data);
+    console.log(data);
+
+    setShowComment(!showComment);
+  };
+  const handlePostLike = async () => {
+    const { status } = await axiosService.patch(`/posts/${post._id}/like`);
+    if (status === "success") {
+      toast.success("Post liked successfully!");
+    }
+  };
   return (
     <Card className="border shadow-lg rounded-lg">
       <CardHeader className="flex space-x-4 p-4">
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
             <Avatar>
-              <AvatarImage src={post.userId.photo || defaultImage} alt="@shadcn" />
+              <AvatarImage
+                src={post.userId.photo || defaultImage}
+                alt="@shadcn"
+              />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <div>
@@ -73,11 +95,7 @@ const Post = ({ post }) => {
         </div>
       </CardHeader>
       <CardContent className="p-4">
-        <p>
-          {
-            post.post
-          }
-        </p>
+        <p>{post.post}</p>
         <ScrollArea className="w-full">
           <div className="grid grid-flow-col auto-cols-[minmax(200px,_1fr)] w-full gap-2 p-4 overflow-x-auto">
             <img
@@ -92,8 +110,8 @@ const Post = ({ post }) => {
               className="object-cover max-h-56 flex-grow basis-0 w-full min-w-48 aspect-[3/4] rounded"
               loading="lazy"
             />
-
-            {/* Additional images */}
+            {/* If image is not loading due to maybe no internet etc, display skeleton */}
+            {/* <Skeleton /> */}
           </div>
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
@@ -102,10 +120,10 @@ const Post = ({ post }) => {
         <section className="border-y py-2 flex justify-between">
           <div className="flex gap-4">
             <div className="cursor-pointer">
-              <Heart />
+              <Heart onClick={handlePostLike} />
             </div>
             <div className="cursor-pointer">
-              <MessageCircle onClick={()=> setComment(!comment)} />
+              <MessageCircle onClick={handleCommentsDisplay} />
             </div>
             <div className="cursor-pointer">
               <SendHorizonal />
@@ -131,7 +149,7 @@ const Post = ({ post }) => {
           <Input placeholder="Add a comment..." />
         </div>
       </CardFooter>
-      {/* {comment && <Comments comments={post.comments} />} */}
+      {showComment && <Comments comments={comments} />}
     </Card>
   );
 };
