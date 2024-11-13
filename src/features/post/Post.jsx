@@ -29,6 +29,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
+import useTimeAgo from "@/hooks/use-timeago";
 import Comments from "../comments/Comments";
 
 import defaultImage from "./../../assets/default profile.jpg";
@@ -37,6 +38,7 @@ import axiosService from "@/axios";
 const Post = ({ post }) => {
   const [showComment, setShowComment] = useState(false);
   const [comments, setComments] = useState([]);
+  const [comment, setComment] = useState("");
   // Fetch comments from postId
   const handleCommentsDisplay = async () => {
     // Add skeleton before comment arrives
@@ -52,6 +54,17 @@ const Post = ({ post }) => {
       toast.success("Post liked successfully!");
     }
   };
+
+  const handleCommentToPost = async (event) => {
+    event.preventDefault();
+    const { data } = await axiosService.post(`/posts/${post._id}/comments`, {
+      comment,
+    });
+    console.log(data);
+    setComment("");
+    toast.success("Comment added successfully.");
+  };
+  
   return (
     <Card className="border shadow-lg rounded-lg">
       <CardHeader className="flex space-x-4 p-4">
@@ -66,7 +79,9 @@ const Post = ({ post }) => {
             </Avatar>
             <div>
               <h3 className="font-semibold">{post.userId.name}</h3>
-              <p className="text-sm text-gray-500">{post.createdAt}</p>
+              <p className="text-sm text-gray-500">
+                {useTimeAgo(post.createdAt)}
+              </p>
             </div>
           </div>
           <Popover>
@@ -145,9 +160,14 @@ const Post = ({ post }) => {
             <span>4 reposts</span>
           </div>
         </section>
-        <div>
-          <Input placeholder="Add a comment..." />
-        </div>
+        <form className="flex gap-1" onSubmit={handleCommentToPost}>
+          <Input
+            placeholder="Add a comment..."
+            value={comment}
+            onChange={(event) => setComment(event.target.value)}
+          />
+          <Button>Send</Button>
+        </form>
       </CardFooter>
       {showComment && <Comments comments={comments} />}
     </Card>

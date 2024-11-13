@@ -1,6 +1,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import defaultProfile from "./../../assets/default profile.jpg";
 
+import useTimeAgo from '@/hooks/use-timeago';
+
 const Comments = ({comments}) => {
   if(comments.length === 0){
     return <div className="p-4 space-y-2 text-center bg-gray-50 text-lg font-semibold">No comment yet!</div>;
@@ -16,9 +18,9 @@ const Comments = ({comments}) => {
           <div>
             <div className="bg-gray-100 p-2 rounded-lg">
               <h4 className="font-semibold text-sm">{comment.userId.name}</h4>
-              <p className="text-sm">{comment.message}</p>
+              <p className="text-sm">{comment.comment}</p>
             </div>
-            <p className="text-xs text-gray-500 mt-1">{comment.createdAt}</p>
+            <p className="text-xs text-gray-500 mt-1">{useTimeAgo(comment.createdAt)}</p>
           </div>
         </div>
       ))}

@@ -14,15 +14,18 @@ import Loader from "@/components/Loader/Loader";
 import Post from "@/features/post/Post";
 import axiosService from "@/axios";
 import { Button } from "@/components/ui/button";
-import { PlusIcon } from "lucide-react";
+import { Image, MapPin, PlusIcon } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 const NewsFeed = () => {
   const [posts, setPosts] = useState([]);
-    const [post, setPost] = useState("");
+  const [post, setPost] = useState("");
   const [loader, setLoader] = useState(false);
 
   const handlePostSubmit = async () => {
+    if (!post) {
+      return;
+    }
     const res = await axiosService.post("/posts", {
       post,
     });
@@ -31,10 +34,10 @@ const NewsFeed = () => {
   };
   useEffect(() => {
     const getAllPosts = async () => {
-      setLoader(true)
+      setLoader(true);
       const { data } = await axiosService.get("/posts");
       // console.log(data);
-      
+
       setPosts(data);
       setLoader(false);
     };
@@ -64,7 +67,10 @@ const NewsFeed = () => {
               </div>
             </ScrollArea>
 
-            <DialogFooter>
+            <DialogFooter className="flex border-t pt-2 items-center justify-between">
+              <div className="flex items-center">
+                <Image /> <MapPin />
+              </div>
               <Button type="submit" onClick={handlePostSubmit}>
                 Post
               </Button>

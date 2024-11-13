@@ -35,7 +35,7 @@ const Projects = () => {
     <div>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-wrap justify-between my-2">
-          <h2 className="text-2xl text-slate-700 font-semibold">
+          <h2 ro>
             Explore projects
           </h2>
           <div className="flex gap-4">

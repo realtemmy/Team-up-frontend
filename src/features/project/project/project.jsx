@@ -10,7 +10,7 @@ const Project = () => {
   useEffect(() => {
     const getProjects = async () => {
       const res = await axiosService.get("/project");
-      console.log(res.data);
+      // console.log(res.data);
       setProjects(res.data);
     };
     getProjects();
