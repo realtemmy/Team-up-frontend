@@ -1,4 +1,11 @@
 import { useEffect, useState } from "react";
+import { Image, MapPin, PlusIcon, Smile } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
 
 import {
   Dialog,
@@ -8,22 +15,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Textarea } from "@/components/ui/textarea";
-
-import Loader from "@/components/Loader/Loader";
-import Post from "@/features/post/Post";
-import axiosService from "@/axios";
-import { Button } from "@/components/ui/button";
-import { Image, MapPin, PlusIcon } from "lucide-react";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
+
+import EmojiPicker from "emoji-picker-react";
+
+import Loader from "@/components/Loader/Loader";
+import Post from "@/features/post/Post";
+import axiosService from "@/axios";
 
 const NewsFeed = () => {
   const [posts, setPosts] = useState([]);
@@ -31,6 +34,7 @@ const NewsFeed = () => {
   const [images, setImages] = useState([]);
   const [previewUrls, setPreviewUrls] = useState([]);
   const [loader, setLoader] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   useEffect(() => {
     const getAllPosts = async () => {
@@ -50,6 +54,11 @@ const NewsFeed = () => {
 
     const urls = selectedFiles.map((file) => URL.createObjectURL(file));
     setPreviewUrls(urls);
+  };
+
+  const handleEmojiClick = (emojiData) => {
+    setPost((prevPost) => prevPost + emojiData.emoji);
+    setShowEmojiPicker(false); // Hide the picker after selection
   };
 
   const handlePostSubmit = async () => {
@@ -91,17 +100,21 @@ const NewsFeed = () => {
               <PlusIcon />
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="relative">
             <DialogHeader>
               <DialogTitle>Create Post</DialogTitle>
             </DialogHeader>
-            <ScrollArea>
-              <div>
+            <ScrollArea className="-z-50">
+              <div className="relative">
                 <Textarea
                   placeholder="What's happening?"
                   value={post}
                   required
                   onChange={(event) => setPost(event.target.value)}
+                />
+                <Smile
+                  className="absolute top-2 right-2 cursor-pointer"
+                  onClick={() => setShowEmojiPicker((prev) => !prev)}
                 />
               </div>
             </ScrollArea>
@@ -116,6 +129,22 @@ const NewsFeed = () => {
                 />
               ))}
             </div>
+            {showEmojiPicker && (
+              <div
+                style={{
+                  zIndex: 50000,
+                  position: "absolute",
+                }}
+                className="top-0 right-0"
+              >
+                <EmojiPicker
+                  onEmojiClick={handleEmojiClick}
+                  rows={4}
+                  perRow={8}
+                  emojiSize={32}
+                />
+              </div>
+            )}
 
             <DialogFooter>
               <div className="flex border-t pt-2 items-center justify-between w-full">

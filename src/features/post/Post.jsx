@@ -158,7 +158,7 @@ const Post = ({ post }) => {
           <div className="font-medium">{post.likesCount} likes</div>
           <div className="flex gap-2">
             <span>{post.comments.length} comments &#183; </span>
-            <span>4 reposts</span>
+            <span>0 reposts</span>
           </div>
         </section>
         <form className="flex gap-1" onSubmit={handleCommentToPost}>
