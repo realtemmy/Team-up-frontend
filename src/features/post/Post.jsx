@@ -8,6 +8,7 @@ import {
   SendHorizonal,
   Redo2,
   Bookmark,
+  Smile,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -31,14 +32,18 @@ import { toast } from "sonner";
 
 import useTimeAgo from "@/hooks/use-timeago";
 import Comments from "../comments/Comments";
+import EmojiPicker from "emoji-picker-react";
 
 import defaultImage from "./../../assets/default profile.jpg";
 import axiosService from "@/axios";
 
 const Post = ({ post }) => {
+  // Emoji display is dynamic, not just bottom but based on where space dey
   const [showComment, setShowComment] = useState(false);
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+
   // Fetch comments from postId
   const handleCommentsDisplay = async () => {
     // Add skeleton before comment arrives
@@ -48,6 +53,12 @@ const Post = ({ post }) => {
 
     setShowComment(!showComment);
   };
+
+    const handleEmojiClick = (emojiData) => {
+      setComment((prevComment) => prevComment + emojiData.emoji);
+      setShowEmojiPicker(false); // Hide the picker after selection
+    };
+
   const handlePostLike = async () => {
     const { status } = await axiosService.patch(`/posts/${post._id}/like`);
     if (status === "success") {
@@ -64,7 +75,6 @@ const Post = ({ post }) => {
     setComment("");
     toast.success("Comment added successfully.");
   };
-
 
   return (
     <Card className="border shadow-lg rounded-lg">
@@ -161,12 +171,35 @@ const Post = ({ post }) => {
             <span>0 reposts</span>
           </div>
         </section>
-        <form className="flex gap-1" onSubmit={handleCommentToPost}>
-          <Input
-            placeholder="Add a comment..."
-            value={comment}
-            onChange={(event) => setComment(event.target.value)}
-          />
+        <form className="flex gap-1 relative" onSubmit={handleCommentToPost}>
+          <div className="w-full relative">
+            <Input
+              placeholder="Add a comment..."
+              value={comment}
+              onChange={(event) => setComment(event.target.value)}
+            />
+            <Smile
+              className="absolute right-2 top-2 cursor-pointer"
+              onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+            />
+          </div>
+          {showEmojiPicker && (
+            <div
+              style={{
+                zIndex: 50000,
+                position: "absolute",
+              }}
+              className="top-0 right-0"
+            >
+              <EmojiPicker
+                onEmojiClick={handleEmojiClick}
+                rows={4}
+                perRow={8}
+                emojiSize={32}
+              />
+            </div>
+          )}
+
           <Button>Send</Button>
         </form>
       </CardFooter>
