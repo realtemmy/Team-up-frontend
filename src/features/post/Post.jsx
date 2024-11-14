@@ -64,7 +64,8 @@ const Post = ({ post }) => {
     setComment("");
     toast.success("Comment added successfully.");
   };
-  
+
+
   return (
     <Card className="border shadow-lg rounded-lg">
       <CardHeader className="flex space-x-4 p-4">
@@ -112,22 +113,22 @@ const Post = ({ post }) => {
       <CardContent className="p-4">
         <p>{post.post}</p>
         <ScrollArea className="w-full">
-          <div className="grid grid-flow-col auto-cols-[minmax(200px,_1fr)] w-full gap-2 p-4 overflow-x-auto">
-            <img
-              src="https://images.unsplash.com/photo-1508030358362-c071fa056233?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="Scenic landscape"
-              className="object-cover max-h-56 flex-grow basis-0 w-full min-w-48 aspect-[3/4] rounded"
-              loading="lazy"
-            />
-            <img
-              src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="Mountain landscape"
-              className="object-cover max-h-56 flex-grow basis-0 w-full min-w-48 aspect-[3/4] rounded"
-              loading="lazy"
-            />
-            {/* If image is not loading due to maybe no internet etc, display skeleton */}
-            {/* <Skeleton /> */}
-          </div>
+          {post.images.length > 0 && (
+            <div className="grid grid-flow-col auto-cols-[minmax(200px,_1fr)] w-full gap-2 p-4 overflow-x-auto">
+              {post.images.map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  alt={`Post image ${index + 1}`}
+                  className="object-cover max-h-56 flex-grow basis-0 w-full min-w-48 aspect-[3/4] rounded"
+                  loading="lazy"
+                />
+              ))}
+              {/* If image is not loading due to maybe no internet etc, display skeleton */}
+              {/* <Skeleton /> */}
+            </div>
+          )}
+
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </CardContent>

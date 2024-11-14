@@ -10,6 +10,7 @@ import {
   FolderKanban,
   BringToFront,
   SquarePlus,
+  Bookmark,
 } from "lucide-react";
 
 import {
@@ -237,24 +238,42 @@ const AppSidebar = () => {
                         </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
-                  </SidebarMenuItem>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton asChild>
-                      <Link to="/user/settings">
-                        <TooltipProvider>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <Settings />
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              <p>Settings</p>
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton asChild>
+                        <Link to="/user/settings">
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Settings />
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>Settings</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
 
-                        <span>Settings</span>
-                      </Link>
-                    </SidebarMenuButton>
+                          <span>Settings</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                    <SidebarMenuItem>
+                      <SidebarMenuButton asChild>
+                        <Link to="/bookmarks">
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Bookmark />
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>Bookmarks</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+
+                          <span>Bookmarks</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
                   </SidebarMenuItem>
                 </SidebarMenu>
               </SidebarGroupContent>
