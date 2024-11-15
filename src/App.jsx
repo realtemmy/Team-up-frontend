@@ -16,6 +16,7 @@ import CreateProject from "./features/project/create-project/CreateProject";
 
 import Posts from "./pages/posts/Posts";
 import NewsFeed from "./pages/News-feed/NewsFeed";
+import Bookmarks from "./pages/bookmarks/Bookmarks";
 
 import "react-toastify/dist/ReactToastify.css";
 import ProjectPage from "./features/project/project-page/ProjectPage";
@@ -27,6 +28,7 @@ import ProjectPage from "./features/project/project-page/ProjectPage";
 // latest project route project/latest -- would get by project creation date only
 
 // Get all logged in users team
+// keep track of post's bookmarks, and user's that bookmarked
 
 // Add Bookmarked section
 // Send mail to all contributors before their id is added to the project
@@ -47,6 +49,8 @@ function App() {
           <Route path="/projects" element={<Projects />} />
           <Route path="/projects/new" element={<CreateProject />} />
           <Route path="/projects/:projectId" element={<ProjectPage />} />
+
+          <Route path="/bookmarks" element={<Bookmarks />} />
         </Route>
 
         <Route path="/login" element={<Login />} />

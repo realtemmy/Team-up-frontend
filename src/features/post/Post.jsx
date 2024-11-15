@@ -44,7 +44,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
@@ -102,6 +102,15 @@ const Post = ({ post }) => {
   };
   const handlePrevImage = () => {
     setPhotoIndex(photoIndex - 1);
+  };
+
+  const handleBookmark = async () => {
+    const { message, status } = await axiosService.patch(
+      `/posts/${post._id}/bookmark`
+    );
+    if (status === "success") {
+      toast.success(message);
+    }
   };
 
   return (
@@ -272,15 +281,21 @@ const Post = ({ post }) => {
                 </DialogFooter>
               </DialogContent>
             </Dialog>
-
           </div>
           <div className="flex gap-4">
             <div className="cursor-pointer">
               <Redo2 />
             </div>
-            <div className="cursor-pointer">
-              <Bookmark />
-            </div>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <Bookmark onClick={handleBookmark} />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Bookmark</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </section>
         <section className="my-2 text-sm md:text-base flex justify-between items-center">
