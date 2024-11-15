@@ -7,6 +7,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
 import {
   Dialog,
   DialogContent,
@@ -90,109 +92,135 @@ const NewsFeed = () => {
   };
 
   return (
-    <div className="grid grid-cols-5 ">
+    <div>
       {loader && <Loader />}
-      <nav className="flex justify-between my-4 col-span-5">
-        <h4>This is the post page...sort by friends, recent and popular</h4>
-        <Dialog>
-          <DialogTrigger>
-            <Button size="sm">
-              <PlusIcon />
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="relative">
-            <DialogHeader>
-              <DialogTitle>Create Post</DialogTitle>
-            </DialogHeader>
-            <ScrollArea className="-z-50">
-              <div className="relative">
-                <Textarea
-                  placeholder="What's happening?"
-                  value={post}
-                  required
-                  onChange={(event) => setPost(event.target.value)}
-                />
-                <Smile
-                  className="absolute top-2 right-2 cursor-pointer"
-                  onClick={() => setShowEmojiPicker((prev) => !prev)}
-                />
-              </div>
-            </ScrollArea>
-            <div className="flex gap-2">
-              {previewUrls.map((url, index) => (
-                <img
-                  src={url}
-                  key={index}
-                  alt="preview"
-                  width={50}
-                  className="rounded-lg"
-                />
-              ))}
-            </div>
-            {showEmojiPicker && (
-              <div
-                style={{
-                  zIndex: 50000,
-                  position: "absolute",
-                }}
-                className="top-0 right-0"
-              >
-                <EmojiPicker
-                  onEmojiClick={handleEmojiClick}
-                  rows={4}
-                  perRow={8}
-                  emojiSize={32}
-                />
-              </div>
-            )}
-
-            <DialogFooter>
-              <div className="flex border-t pt-2 items-center justify-between w-full">
-                <div className="flex items-center space-x-4">
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger className="relative">
-                        <Image />
-                        <Input
-                          type="file"
-                          accept="image/*"
-                          className="absolute top-0 opacity-0"
-                          multiple
-                          onChange={handleImageChange}
-                        />
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Upload Image</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <MapPin />
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>location</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+      <section className="flex items-baseline gap-4">
+        <div>
+          <nav className="flex justify-between my-4 col-span-5">
+            <h4 className="font-bold text-2xl text-slate-800">Feeds</h4>
+            <Dialog>
+              <DialogTrigger>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Button size="sm">
+                        <PlusIcon />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Create Post</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </DialogTrigger>
+              <DialogContent className="relative">
+                <DialogHeader>
+                  <DialogTitle>Create Post</DialogTitle>
+                </DialogHeader>
+                <ScrollArea className="-z-50">
+                  <div className="relative">
+                    <Textarea
+                      placeholder="What's happening?"
+                      value={post}
+                      required
+                      onChange={(event) => setPost(event.target.value)}
+                    />
+                    <Smile
+                      className="absolute top-2 right-2 cursor-pointer"
+                      onClick={() => setShowEmojiPicker((prev) => !prev)}
+                    />
+                  </div>
+                </ScrollArea>
+                <div className="flex gap-2">
+                  {previewUrls.map((url, index) => (
+                    <img
+                      src={url}
+                      key={index}
+                      alt="preview"
+                      width={50}
+                      className="rounded-lg"
+                    />
+                  ))}
                 </div>
-                <Button type="submit" onClick={handlePostSubmit}>
-                  Post
-                </Button>
-              </div>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      </nav>
-      <div className="space-y-4 max-w-2xl mx-auto col-span-4 border">
-        {posts.map((post, idx) => (
-          <Post key={idx} post={post} />
-        ))}
-      </div>
-      <section className="col-span-1 border-red-500 border">
-        <h4 className="font-bold">Stories</h4>
+                {showEmojiPicker && (
+                  <div
+                    style={{
+                      zIndex: 50000,
+                      position: "absolute",
+                    }}
+                    className="top-0 right-0"
+                  >
+                    <EmojiPicker
+                      onEmojiClick={handleEmojiClick}
+                      rows={4}
+                      perRow={8}
+                      emojiSize={32}
+                    />
+                  </div>
+                )}
+
+                <DialogFooter>
+                  <div className="flex border-t pt-2 items-center justify-between w-full">
+                    <div className="flex items-center space-x-4">
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger className="relative">
+                            <Image />
+                            <Input
+                              type="file"
+                              accept="image/*"
+                              className="absolute top-0 opacity-0"
+                              multiple
+                              onChange={handleImageChange}
+                            />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Upload Image</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <MapPin />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>location</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                    <Button type="submit" onClick={handlePostSubmit}>
+                      Post
+                    </Button>
+                  </div>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          </nav>
+          <div className="space-y-4 max-w-2xl col-span-4 border">
+            {posts.map((post, idx) => (
+              <Post key={idx} post={post} />
+            ))}
+          </div>
+        </div>
+        <div className="w-full">
+          <p className="font-bold">Stories</p>
+          <div>
+            <img src="" alt="" />
+          </div>
+          <p className="font-bold text-lg text-slate-700">Suggestions</p>
+          <div className="flex items-center gap-3">
+            <Avatar>
+              <AvatarImage src="https://github.com/shadcn.png" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+            <div className="font-semibold">Temiloluwa Oreoluwa Akorede</div>
+            <Button size="sm">Follow</Button>
+          </div>
+          <p className="font-bold text-lg text-slate-700">Recommendations</p>
+        </div>
       </section>
     </div>
   );
