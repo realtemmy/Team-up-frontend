@@ -199,7 +199,7 @@ const NewsFeed = () => {
               </DialogContent>
             </Dialog>
           </nav>
-          <div className="space-y-4 max-w-2xl col-span-4 border">
+          <div className="space-y-4 max-w-2xl col-span-4">
             {posts.map((post, idx) => (
               <Post key={idx} post={post} />
             ))}
@@ -210,7 +210,7 @@ const NewsFeed = () => {
           <div>
             <img src="" alt="" />
           </div>
-          <p className="font-bold text-lg text-slate-700">Suggestions</p>
+          <p className="font-bold text-lg text-slate-700 my-2">Suggestions</p>
           <div className="flex items-center gap-3">
             <Avatar>
               <AvatarImage src="https://github.com/shadcn.png" />

@@ -138,19 +138,19 @@ const UserSettings = () => {
       </Dialog>
       <div className="grid grid-cols-2 gap-4">
         {loader && <Loader />}
-        <Button
+        {/* <Button
           onClick={() => {
             toast("Event has been created", {
               description: "Sunday, December 03, 2023 at 9:00 AM",
               action: {
                 label: "Undo",
                 onClick: () => console.log("Undo"),
-              },
+              }, 
             });
           }}
         >
           Show Toast
-        </Button>
+        </Button> */}
         <div className="col-span-2 flex flex-col md:flex-row items-center gap-4 mb-4">
           <div className="relative">
             <Avatar className="w-32 h-32 rounded-full border-2">
