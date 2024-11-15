@@ -9,6 +9,9 @@ import {
   Redo2,
   Bookmark,
   Smile,
+  MoveLeft,
+  MoveRight,
+  Copy,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -26,8 +29,26 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 
 import useTimeAgo from "@/hooks/use-timeago";
@@ -43,6 +64,7 @@ const Post = ({ post }) => {
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [photoIndex, setPhotoIndex] = useState(0);
 
   // Fetch comments from postId
   const handleCommentsDisplay = async () => {
@@ -54,10 +76,10 @@ const Post = ({ post }) => {
     setShowComment(!showComment);
   };
 
-    const handleEmojiClick = (emojiData) => {
-      setComment((prevComment) => prevComment + emojiData.emoji);
-      setShowEmojiPicker(false); // Hide the picker after selection
-    };
+  const handleEmojiClick = (emojiData) => {
+    setComment((prevComment) => prevComment + emojiData.emoji);
+    setShowEmojiPicker(false); // Hide the picker after selection
+  };
 
   const handlePostLike = async () => {
     const { status } = await axiosService.patch(`/posts/${post._id}/like`);
@@ -74,6 +96,12 @@ const Post = ({ post }) => {
     console.log(data);
     setComment("");
     toast.success("Comment added successfully.");
+  };
+  const handleNextImage = () => {
+    setPhotoIndex(photoIndex + 1);
+  };
+  const handlePrevImage = () => {
+    setPhotoIndex(photoIndex - 1);
   };
 
   return (
@@ -126,13 +154,69 @@ const Post = ({ post }) => {
           {post.images.length > 0 && (
             <div className="grid grid-flow-col auto-cols-[minmax(200px,_1fr)] w-full gap-2 p-4 overflow-x-auto">
               {post.images.map((image, index) => (
-                <img
-                  key={index}
-                  src={image}
-                  alt={`Post image ${index + 1}`}
-                  className="object-cover max-h-56 flex-grow basis-0 w-full min-w-48 aspect-[3/4] rounded"
-                  loading="lazy"
-                />
+                <Dialog key={index} className="w-96">
+                  <DialogTrigger>
+                    <img
+                      src={image}
+                      onClick={() => setPhotoIndex(index)}
+                      alt={`Post image ${index + 1}`}
+                      className="object-cover max-h-56 flex-grow basis-0 w-full min-w-48 aspect-[3/4] rounded"
+                      loading="lazy"
+                    />
+                  </DialogTrigger>
+                  <DialogContent className="p-0">
+                    <div className="relative">
+                      <div
+                        className={
+                          photoIndex > 0
+                            ? "absolute -left-8 cursor-pointer bottom-1/2"
+                            : "hidden"
+                        }
+                      >
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <MoveLeft
+                                color="white"
+                                onClick={handlePrevImage}
+                              />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Prev Image</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
+                      <img
+                        src={post.images[photoIndex]}
+                        alt={`Post image ${index + 1}`}
+                        className="object-cover  rounded"
+                        loading="lazy"
+                      />
+                      <div
+                        className={
+                          photoIndex !== post.images.length - 1
+                            ? "absolute -right-8 cursor-pointer bottom-1/2"
+                            : "hidden"
+                        }
+                      >
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <MoveRight
+                                color="white"
+                                onClick={handleNextImage}
+                              />
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Next Image</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
               ))}
               {/* If image is not loading due to maybe no internet etc, display skeleton */}
               {/* <Skeleton /> */}
@@ -151,9 +235,44 @@ const Post = ({ post }) => {
             <div className="cursor-pointer">
               <MessageCircle onClick={handleCommentsDisplay} />
             </div>
-            <div className="cursor-pointer">
-              <SendHorizonal />
-            </div>
+
+            <Dialog>
+              <DialogTrigger asChild>
+                <SendHorizonal className="cursor-pointer" />
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Share link</DialogTitle>
+                  <DialogDescription>
+                    Anyone who has this link will be able to view this.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="flex items-center space-x-2">
+                  <div className="grid flex-1 gap-2">
+                    <Label htmlFor="link" className="sr-only">
+                      Link
+                    </Label>
+                    <Input
+                      id="link"
+                      defaultValue={`https://teamup.com/feed/${post._id}`}
+                      readOnly
+                    />
+                  </div>
+                  <Button type="submit" size="sm" className="px-3">
+                    <span className="sr-only">Copy</span>
+                    <Copy />
+                  </Button>
+                </div>
+                <DialogFooter className="sm:justify-start">
+                  <DialogClose asChild>
+                    <Button type="button" variant="secondary">
+                      Close
+                    </Button>
+                  </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+
           </div>
           <div className="flex gap-4">
             <div className="cursor-pointer">
