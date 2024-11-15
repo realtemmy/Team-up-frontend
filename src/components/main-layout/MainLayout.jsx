@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 
-import { SidebarProvider, SidebarTrigger } from "../ui/sidebar";
+import { SidebarProvider, SidebarTrigger, SidebarInset } from "../ui/sidebar";
 import AppSidebar from "../ui/app-sidebar";
+import SidebarRight from "../sidebar-right/SidebarRight";
 
 import {
   Breadcrumb,
@@ -13,6 +14,7 @@ import {
 } from "@/components/ui/breadcrumb";
 
 import Navigation from "../navigation/Navigation";
+import { Separator } from "../ui/separator";
 
 const MainLayout = () => {
   const [crumbs, setCrumbs] = useState([]);
@@ -24,41 +26,39 @@ const MainLayout = () => {
 
   return (
     <SidebarProvider>
-      <div className="flex">
-        {/* Sidebar */}
         <AppSidebar />
-
-        {/* Main Content */}
-        <div className="flex-1 flex flex-col p-4">
-          {/* Breadcrumb and Navigation */}
-          <div className="flex items-center mb-4">
-            <SidebarTrigger />
-            <Breadcrumb className="flex ml-2">
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink asChild>
-                    <Link to="/">Home</Link>
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-              </BreadcrumbList>
-              {crumbs.map((crumb, index) => (
-                <BreadcrumbList key={index}>
+        <SidebarInset>
+          <header >
+            {/* Breadcrumb and Navigation */}
+            <div className="flex items-center gap-2 px-4">
+              <SidebarTrigger className="-ml-1" />
+              <Separator orientation="vertical" className="mr-2 h-4" />
+              <Breadcrumb className="flex ml-2">
+                <BreadcrumbList>
                   <BreadcrumbItem>
                     <BreadcrumbLink asChild>
-                      <Link to={`/${crumb}`}>{crumb}</Link>
+                      <Link to="/">Home</Link>
                     </BreadcrumbLink>
                   </BreadcrumbItem>
                   <BreadcrumbSeparator />
                 </BreadcrumbList>
-              ))}
-            </Breadcrumb>
-          </div>
-
-          {/* Navigation */}
-          <Navigation />
-        </div>
-      </div>
+                {crumbs.map((crumb, index) => (
+                  <BreadcrumbList key={index}>
+                    <BreadcrumbItem>
+                      <BreadcrumbLink asChild>
+                        <Link to={`/${crumb}`}>{crumb}</Link>
+                      </BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                  </BreadcrumbList>
+                ))}
+              </Breadcrumb>
+            </div>
+            <Navigation />
+          </header>
+        </SidebarInset>
+    
+      {/* <SidebarRight /> */}
     </SidebarProvider>
   );
 };

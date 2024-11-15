@@ -90,10 +90,10 @@ const NewsFeed = () => {
   };
 
   return (
-    <div>
+    <div className="grid grid-cols-5 ">
       {loader && <Loader />}
-      <nav className="flex justify-between my-4">
-        <h4>This is the post page</h4>
+      <nav className="flex justify-between my-4 col-span-5">
+        <h4>This is the post page...sort by friends, recent and popular</h4>
         <Dialog>
           <DialogTrigger>
             <Button size="sm">
@@ -186,11 +186,14 @@ const NewsFeed = () => {
           </DialogContent>
         </Dialog>
       </nav>
-      <div className="space-y-4 max-w-2xl mx-auto">
+      <div className="space-y-4 max-w-2xl mx-auto col-span-4 border">
         {posts.map((post, idx) => (
           <Post key={idx} post={post} />
         ))}
       </div>
+      <section className="col-span-1 border-red-500 border">
+        <h4 className="font-bold">Stories</h4>
+      </section>
     </div>
   );
 };
