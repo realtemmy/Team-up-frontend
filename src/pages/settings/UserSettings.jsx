@@ -18,11 +18,12 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 import { setUser, setProfilePhoto } from "@/redux/user/userSlice";
 
+import { toast } from "sonner";
+
 import Loader from "@/components/Loader/Loader";
 import defaultProfileImage from "./../../assets/default profile.jpg";
 import axiosService from "@/axios";
 
-import { toast  } from "sonner";
 
 const UserSettings = () => {
   const dispatch = useDispatch();
@@ -92,6 +93,7 @@ const UserSettings = () => {
     console.log(res);
     dispatch(setUser(res.data));
     setLoader(false);
+    toast.success("Profile Updated successfully!")
   };
 
   const handlePasswordSubmit = async (event) => {
