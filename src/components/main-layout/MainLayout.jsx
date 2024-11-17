@@ -3,7 +3,6 @@ import { useLocation, Link } from "react-router-dom";
 
 import { SidebarProvider, SidebarTrigger, SidebarInset } from "../ui/sidebar";
 import AppSidebar from "../ui/app-sidebar";
-import SidebarRight from "../sidebar-right/SidebarRight";
 
 import {
   Breadcrumb,
@@ -58,7 +57,7 @@ const MainLayout = () => {
           </header>
         </SidebarInset>
     
-      {/* <SidebarRight /> */}
+
     </SidebarProvider>
   );
 };
