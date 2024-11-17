@@ -15,3 +15,10 @@ This is the frontend to a
 * Creating posts
 * Creating, joining and editing projects
 * Host hackathons/ projects and challenges.
+
+
+# Chat
+Chat design by:
+- Github: [Jakobhoeg](https://github.com/jakobhoeg/shadcn-chat)
+- Live url [Shadcn Chat](https://shadcn-chat.vercel.app/)
+- Docs: [Shadcn chat docs](https://docs-shadcn-chat.vercel.app/)
