@@ -14,6 +14,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import ChatMessage from "@/components/conversation/chat-message/ChatMessage";
 
 import { ChatMessageList } from "@/components/ui/chat/chat-message-list";
 import { ChatInput } from "@/components/ui/chat/chat-input";
@@ -38,15 +39,44 @@ const Chat = () => {
       variant: "sent",
       text: "Hello, how has your day been? I hope you are doing well.",
       fallback: "US",
+      sender: {
+        name: "Bonnie Green",
+        profilePicture: "/docs/images/people/profile-picture-3.jpg",
+      },
+      timestamp: "11:46",
+      images: [
+        "/docs/images/blog/image-1.jpg",
+        "/docs/images/blog/image-2.jpg",
+        "/docs/images/blog/image-3.jpg",
+        "/docs/images/blog/image-4.jpg",
+        "/docs/images/blog/image-5.jpg",
+      ],
+      type: "text, images", // Can be 'text', 'images', etc.
+      status: "Delivered",
     },
     {
       variant: "received",
       fallback: "RC",
       text: "Hi, I am doing well, thank you for asking. How can I help you today?",
+      sender: {
+        name: "Bonnie Green",
+        profilePicture: "/docs/images/people/profile-picture-3.jpg",
+      },
+      timestamp: "11:46",
+      images: [
+        "/docs/images/blog/image-1.jpg",
+        "/docs/images/blog/image-2.jpg",
+        "/docs/images/blog/image-3.jpg",
+        "/docs/images/blog/image-4.jpg",
+        "/docs/images/blog/image-5.jpg",
+      ],
+      type: "text,images", // Can be 'text', 'images', etc.
+      status: "Delivered",
     },
     {
       variant: "received",
       fallback: "RC",
+
       isLoading: true,
     },
   ];
@@ -67,14 +97,11 @@ const Chat = () => {
   ];
 
   return (
-    <ScrollArea className="h-[calc(100vh-40px)] px-2">
+    <div >
       <button className="sm:hidden p-2 bg-gray-200" onClick={toggleSidebar}>
-        <Menu className="" />
+        <Menu />
       </button>
       <ResizablePanelGroup direction="horizontal" className="h-full">
-        <ResizablePanel defaultSize={25} minSize={5} maxSize={30}>
-          <ChatSidebar users={users} onUserSelect={onUserSelect} />
-        </ResizablePanel>
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={75}>
           <div className="fl h-full relative">
@@ -91,16 +118,24 @@ const Chat = () => {
                     {message.isLoading ? (
                       <ChatBubbleMessage isLoading />
                     ) : (
-                      <ChatBubbleMessage
-                        variant={message.variant}
+                      // <ChatBubbleMessage
+                      //   variant={message.variant}
+                      // className={`my-2 rounded-lg ${
+                      //   message.variant === "sent"
+                      //     ? "rounded-br-none"
+                      //     : "rounded-bl-none"
+                      // }`}
+                      // >
+                      //   {message.text}
+                      // </ChatBubbleMessage>
+                      <ChatMessage
                         className={`my-2 rounded-lg ${
                           message.variant === "sent"
                             ? "rounded-br-none"
                             : "rounded-bl-none"
                         }`}
-                      >
-                        {message.text}
-                      </ChatBubbleMessage>
+                        message={message}
+                      />
                     )}
                   </ChatBubble>
                 </div>
@@ -134,7 +169,7 @@ const Chat = () => {
           </div>
         </ResizablePanel>
       </ResizablePanelGroup>
-    </ScrollArea>
+    </div>
   );
 };
 

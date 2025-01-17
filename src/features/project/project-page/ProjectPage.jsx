@@ -169,6 +169,24 @@ const ProjectPage = () => {
       imageUrl:
         "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
     },
+    {
+      name: "Michael Foster",
+      role: "Co-Founder / CTO",
+      imageUrl:
+        "https://images.unsplash.com/photo-1552678561-595783c6d60c?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    },
+    {
+      name: "Leslie Alexander",
+      role: "Co-Founder / CEO",
+      imageUrl:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    },
+    {
+      name: "Michael Foster",
+      role: "Co-Founder / CTO",
+      imageUrl:
+        "https://images.unsplash.com/photo-1552678561-595783c6d60c?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+    },
     // More people...
   ];
 
@@ -420,8 +438,8 @@ const ProjectPage = () => {
             role="list"
             className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2"
           >
-            {people.map((person) => (
-              <li key={person.name}>
+            {people.map((person, idx) => (
+              <li key={idx}>
                 <div className="flex items-center gap-x-6">
                   <img
                     alt=""
