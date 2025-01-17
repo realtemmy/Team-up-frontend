@@ -143,6 +143,38 @@ const AppSidebar = () => {
                   </CollapsibleContent>
                 </SidebarMenuItem>
               </Collapsible>
+              {/* Active chats */}
+              <Collapsible>
+                <SidebarMenuItem>
+                  <CollapsibleTrigger>
+                    <SidebarMenuButton className="w-[15rem]">
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <MessageCircle />
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Active</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                      Active  
+                    </SidebarMenuButton>
+                    <SidebarMenuBadge>12</SidebarMenuBadge>
+                  </CollapsibleTrigger>
+
+                  <CollapsibleContent>
+                    <SidebarMenuSub>
+                      <SidebarMenuSubItem>
+                        <SidebarMenuSubButton>Dumbor</SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                      <SidebarMenuSubItem>
+                        <SidebarMenuSubButton>David</SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                    </SidebarMenuSub>
+                  </CollapsibleContent>
+                </SidebarMenuItem>
+              </Collapsible>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

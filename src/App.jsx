@@ -21,15 +21,16 @@ import Bookmarks from "./pages/bookmarks/Bookmarks";
 import "react-toastify/dist/ReactToastify.css";
 import ProjectPage from "./features/project/project-page/ProjectPage";
 
+// Change redux to react query
+
 // create a create/join a project, join a hackathon
 // create a project - send invites to collaborators,
-// Assign tasks
+// Edit project, remove and add collaborators
+// Assign tasks, update tasks, mark as complete
 // Header - sidebar, Breadcrumb and navigation.
 // latest project route project/latest -- would get by project creation date only
-
 // Get all logged in users team
 // keep track of post's bookmarks, and user's that bookmarked
-
 // Add Bookmarked section
 // Send mail to all contributors before their id is added to the project
 // Chat feature/functionality
