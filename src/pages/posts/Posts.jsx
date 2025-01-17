@@ -18,14 +18,6 @@ import axiosService from "@/axios";
 const Posts = () => {
   const [post, setPost] = useState("");
 
-  // useEffect(() => {
-  //   const getAllPosts = async () => {
-  //     const res = await axiosService.get("/posts");
-  //     console.log(res);
-  //   };
-  //   getAllPosts();
-  // }, []);
-
   const handlePostSubmit = async () => {
     const res = await axiosService.post("/posts", {
       post,

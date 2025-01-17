@@ -199,7 +199,7 @@ const Post = ({ post }) => {
                       <img
                         src={post.images[photoIndex]}
                         alt={`Post image ${index + 1}`}
-                        className="object-cover  rounded"
+                        className="object-cover rounded"
                         loading="lazy"
                       />
                       <div
