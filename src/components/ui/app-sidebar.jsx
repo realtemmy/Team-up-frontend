@@ -72,7 +72,7 @@ const AppSidebar = () => {
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader></SidebarHeader>
+      <SidebarHeader>Team up</SidebarHeader>
       <SidebarContent>
         {/* messaging */}
         <SidebarGroup>
