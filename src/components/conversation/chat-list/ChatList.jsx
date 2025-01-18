@@ -12,7 +12,7 @@ import UserChatPreview from "@/components/user-chat-preview/UserChatPreview";
 
 const ChatList = () => {
   return (
-    <Tabs defaultValue="account" className="min-w-[300px]">
+    <Tabs defaultValue="chats" className="min-w-[300px]">
       <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="chats">Chats</TabsTrigger>
         <TabsTrigger value="calls">Latest calls</TabsTrigger>
