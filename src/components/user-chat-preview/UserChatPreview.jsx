@@ -9,6 +9,7 @@ const UserChatPreview = () => {
       messageType: "text",
       typing: false,
       message: "Yes, we can do this.",
+      messageCount: 0,
     },
     {
       name: "Roberta Cacas",
@@ -16,6 +17,7 @@ const UserChatPreview = () => {
       messageType: "audio",
       typing: false,
       message: "",
+      messageCount: 0,
     },
     {
       name: "Neil Sims",
@@ -23,6 +25,7 @@ const UserChatPreview = () => {
       messageType: "text",
       typing: false,
       message: "Nevermind, I'd grab the items on the way",
+      messageCount: 4,
     },
     {
       name: "Micheal Gough",
@@ -30,6 +33,7 @@ const UserChatPreview = () => {
       messageType: "photo",
       typing: false,
       message: "",
+      messageCount: 0,
     },
     {
       name: "Bonnie Green",
@@ -37,12 +41,14 @@ const UserChatPreview = () => {
       messageType: "text",
       typing: false,
       message: "Yes, we can do this.",
+      messageCount: 0,
     },
   ];
+  // When I click on a chat, clear the messageCount to zero and find a way to set the message to load in the chatdm
   return (
     <div>
       {chats.map((chat, index) => (
-        <div className="flex justify-between" key={index}>
+        <div className="flex justify-between cursor-pointer" key={index}>
           <div className="flex gap-1 my-2">
             <Avatar className="h-10 w-10">
               <AvatarImage src="https://github.com/shadcn.png" />
@@ -73,9 +79,13 @@ const UserChatPreview = () => {
           </div>
           <div className="flex flex-col gap-1 items-center justify-center">
             <div className="text-xs">18:05</div>
-            <div className="rounded-full bg-blue-200 px-1 text-xs font-semibold text-blue-600">
-              0
-            </div>
+            {chat.messageCount > 0 ? (
+              <div className="rounded-full bg-blue-200 px-1 text-xs font-semibold text-blue-600">
+                {chat.messageCount}
+              </div>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       ))}
