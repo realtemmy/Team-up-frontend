@@ -4,7 +4,10 @@ import ChatList from "@/components/conversation/chat-list/ChatList";
 const Chat = () => {
   return (
     <div className="flex gap-2">
-      <ChatList />
+      <div className="hidden md:block">
+         <ChatList />
+      </div>
+     
       <div className="w-full">
         <ChatDM />
       </div>
