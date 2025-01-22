@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { Image, Mic } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
 const UserChatPreview = () => {
+  const [activeState, setActiveState] = useState(0);
   const chats = [
     {
       name: "Lesley Livingston",
@@ -44,11 +45,24 @@ const UserChatPreview = () => {
       messageCount: 0,
     },
   ];
+
+  const handlePreviewClick = (index) => {
+    setActiveState(index);
+    // clear count
+    // fetch and load message in chatdm
+    chats[index].messageCount = 0;
+  };
   // When I click on a chat, clear the messageCount to zero and find a way to set the message to load in the chatdm
   return (
     <div>
       {chats.map((chat, index) => (
-        <div className="flex justify-between cursor-pointer" key={index}>
+        <div
+          onClick={() =>handlePreviewClick(index)}
+          className={`flex justify-between cursor-pointer px-1 mt-2 hover:bg-blue-100 rounded-lg ${
+            activeState === index && "bg-blue-200 rounded-lg"
+          }`}
+          key={index}
+        >
           <div className="flex gap-1 my-2">
             <Avatar className="h-10 w-10">
               <AvatarImage src="https://github.com/shadcn.png" />
