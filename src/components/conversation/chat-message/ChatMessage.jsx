@@ -21,7 +21,7 @@ const ChatMessage = ({ message }) => {
     };
   }, [dropdownRef]);
 
-  const { sender, timestamp, text, images, type, status, variant } = message;
+  const { sender, timestamp, text, images, status, variant } = message;
 
   const handleNextImage = () => {
     setImageIndex(imageIndex + 1);
@@ -117,19 +117,19 @@ const ChatMessage = ({ message }) => {
           </div>
 
           {/* Message Body */}
-          {type.includes("text") && text && (
+          {text && (
             <p className="text-sm font-normal text-gray-900 dark:text-white mb-2">
               {text}
             </p>
           )}
-          {type.includes("images") && images && renderImages(images)}
+          {images && images.length > 0 && renderImages(images)}
 
           {/* Footer */}
           <div className="flex justify-between items-center mt-2">
             <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
               {status}
             </span>
-            {type.includes("images") && (
+            {images && images.length > 0 && (
               <button className="text-sm text-blue-700 dark:text-blue-500 font-medium inline-flex items-center hover:underline">
                 <svg
                   className="w-3 h-3 mr-1.5"
