@@ -1,108 +1,116 @@
 import { useState } from "react";
 import { Image, Mic } from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "react-query";
+import { useDispatch } from "react-redux";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-const UserChatPreview = () => {
-  const [activeState, setActiveState] = useState(0);
-  const chats = [
-    {
-      name: "Lesley Livingston",
-      user: "123",
-      messageType: "text",
-      typing: false,
-      message: "Yes, we can do this.",
-      messageCount: 0,
-    },
-    {
-      name: "Roberta Cacas",
-      user: "123",
-      messageType: "audio",
-      typing: false,
-      message: "",
-      messageCount: 0,
-    },
-    {
-      name: "Neil Sims",
-      user: "123",
-      messageType: "text",
-      typing: false,
-      message: "Nevermind, I'd grab the items on the way",
-      messageCount: 4,
-    },
-    {
-      name: "Micheal Gough",
-      user: "123",
-      messageType: "photo",
-      typing: false,
-      message: "",
-      messageCount: 0,
-    },
-    {
-      name: "Bonnie Green",
-      user: "123",
-      messageType: "text",
-      typing: false,
-      message: "Yes, we can do this.",
-      messageCount: 0,
-    },
-  ];
+import { formatTime } from "@/lib/utils";
+import { setConversationId } from "@/redux/chat-redux/chatSlice";
 
-  const handlePreviewClick = (index) => {
+import useUser from "@/hooks/use-user";
+import axiosService from "@/axios";
+
+const UserChatPreview = () => {
+  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
+
+  const {
+    data: conversations = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["conversations preview"],
+    queryFn: async () => {
+      const response = await axiosService.get("/conversations/last");
+      return response.data;
+    },
+  });
+
+  const { data: user } = useUser();
+
+  const [activeState, setActiveState] = useState(null);
+
+  // const resetMessageCountMutation = useMutation({
+  //   mutationFn: async (chatId) => {
+  //     await axiosService.patch(`/conversations/${chatId}/read`);
+  //   },
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries(["conversations preview"]);
+  //   },
+  // });
+
+  // console.log(conversations);
+
+  const handlePreviewClick = (index, chat) => {
     setActiveState(index);
-    // clear count
-    // fetch and load message in chatdm
-    chats[index].messageCount = 0;
+    dispatch(setConversationId(chat._id));
   };
-  // When I click on a chat, clear the messageCount to zero and find a way to set the message to load in the chatdm
+
+  const returnOtherParticipant = (participants) => {
+    return participants.find((participant) => participant._id !== user._id);
+  };
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error...</div>;
+
   return (
     <div>
-      {chats.map((chat, index) => (
-        <div
-          onClick={() =>handlePreviewClick(index)}
-          className={`flex justify-between cursor-pointer px-1 mt-2 hover:bg-blue-100 rounded-lg ${
-            activeState === index && "bg-blue-200 rounded-lg"
-          }`}
-          key={index}
-        >
-          <div className="flex gap-1 my-2">
-            <Avatar className="h-10 w-10">
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-            <div>
-              <p className="font-semibold">{chat.name}</p>
-              {chat.messageType === "audio" ? (
-                <p className="text-sm text-slate-600 truncate w-fit max-w-[200px] flex items-center gap-1">
-                  <span>
+      {conversations.map((chat, index) => {
+        const otherParticipant = returnOtherParticipant(chat.participants);
+        // console.log("Other Participant: ", otherParticipant);
+
+        return (
+          <div
+            onClick={() => handlePreviewClick(index, chat)}
+            className={`flex justify-between cursor-pointer px-1 mt-2 hover:bg-blue-100 rounded-lg ${
+              activeState === index && "bg-blue-200 rounded-lg"
+            }`}
+            key={index}
+          >
+            <div className="flex gap-1 my-2">
+              <Avatar className="h-10 w-10">
+                <AvatarImage
+                  src={
+                    otherParticipant?.photo || "https://github.com/shadcn.png"
+                  }
+                />
+                <AvatarFallback>
+                  {otherParticipant?.name?.[0]?.toUpperCase() || "?"}
+                </AvatarFallback>
+              </Avatar>
+
+              <div>
+                <p className="font-semibold capitalize">
+                  {otherParticipant?.name || "Unknown"}
+                </p>
+                {chat.messageType === "audio" ? (
+                  <p className="text-sm text-slate-600 truncate w-fit max-w-[200px] flex items-center gap-1">
                     <Mic size={15} />
-                  </span>
-                  <span>Voice message</span>
-                </p>
-              ) : chat.messageType === "photo" ? (
-                <p className="text-sm text-slate-600 truncate w-fit max-w-[200px] flex items-center gap-1">
-                  <span>
+                    <span>Voice message</span>
+                  </p>
+                ) : chat.messageType === "photo" ? (
+                  <p className="text-sm text-slate-600 truncate w-fit max-w-[200px] flex items-center gap-1">
                     <Image size={15} />
-                  </span>
-                  <span>Sent a photo</span>
-                </p>
-              ) : (
-                <p className="text-sm text-slate-600 truncate w-fit max-w-[200px]">
-                  {chat.message}
-                </p>
-              )}
+                    <span>Sent a photo</span>
+                  </p>
+                ) : (
+                  <p className="text-sm text-slate-600 truncate w-fit max-w-[200px]">
+                    {chat.messages[0].message || "No message"}
+                  </p>
+                )}
+              </div>
             </div>
-          </div>
-          <div className="flex flex-col gap-1 items-center justify-center">
-            <div className="text-xs">18:05</div>
-            {chat.messageCount > 0 ? (
+            <div className="flex flex-col gap-1 items-center justify-center">
+              <div className="text-xs">
+                {formatTime(chat.messages[0].createdAt)}
+              </div>
+
               <div className="rounded-full bg-blue-200 px-1 text-xs font-semibold text-blue-600">
                 {chat.messageCount}
               </div>
-            ) : (
-              ""
-            )}
+            </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };

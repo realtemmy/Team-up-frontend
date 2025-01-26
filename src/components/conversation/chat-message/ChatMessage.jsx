@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { MoveLeft, MoveRight } from "lucide-react";
+import { formatTime } from "@/lib/utils";
 
-const ChatMessage = ({ message }) => {
+const ChatMessage = ({ message, receiver }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const [imageIndex, setImageIndex] = useState(0);
@@ -21,7 +22,7 @@ const ChatMessage = ({ message }) => {
     };
   }, [dropdownRef]);
 
-  const { sender, timestamp, text, images, status, variant } = message;
+  const { createdAt, message: text, images, status, variant } = message;
 
   const handleNextImage = () => {
     setImageIndex(imageIndex + 1);
@@ -36,97 +37,91 @@ const ChatMessage = ({ message }) => {
     const remainingImages = images.length - MAX_DISPLAY;
 
     return (
-
-        <div className="grid gap-4 grid-cols-2 my-2.5">
-          {visibleImages.map((img, index) => (
-            <Dialog key={index}>
-              <DialogTrigger>
-                <img
-                  key={index}
-                  src={img}
-                  alt={`Attachment ${index + 1}`}
-                  onClick={() => setImageIndex(index)}
-                  className="rounded-lg"
-                />
-              </DialogTrigger>
-              <DialogContent className="p-0 my-2">
-                <div className="relative flex items-center justify-center w-full h-full">
-                  <MoveLeft
-                    // className="absolute left-0 w-6 h-6 text-white cursor-pointer"
-                    onClick={handlePrevImage}
-                    className={
-                      imageIndex > 0
-                        ? "absolute -left-8 cursor-pointer bottom-1/2 w-6 h-6 text-white"
-                        : "hidden"
-                    }
-                  />
-                  <img
-                    src={images[imageIndex]}
-                    className="object-cover rounded w-full h-full max-h-dvh"
-                    loading="lazy"
-                    alt="preview images"
-                  />
-                  <MoveRight
-                    className={
-                      imageIndex !== images.length - 1
-                        ? "absolute -right-8 cursor-pointer bottom-1/2 h-6 text-white"
-                        : "hidden"
-                    }
-                    onClick={handleNextImage}
-                  />
-                </div>
-              </DialogContent>
-            </Dialog>
-          ))}
-          {remainingImages > 0 && (
-            <div className="group relative">
-              <button className="absolute w-full h-full bg-gray-900/90 hover:bg-gray-900/50 transition-all duration-300 rounded-lg flex items-center justify-center">
-                <span className="text-xl font-medium text-white">
-                  +{remainingImages}
-                </span>
-              </button>
+      <div className="grid gap-4 grid-cols-2 my-2.5">
+        {visibleImages.map((img, index) => (
+          <Dialog key={index}>
+            <DialogTrigger>
               <img
-                src={images[MAX_DISPLAY]}
-                alt="Extra images"
+                key={index}
+                src={img}
+                alt={`Attachment ${index + 1}`}
+                onClick={() => setImageIndex(index)}
                 className="rounded-lg"
               />
-            </div>
-          )}
-        </div>
-
+            </DialogTrigger>
+            <DialogContent className="p-0 my-2">
+              <div className="relative flex items-center justify-center w-full h-full">
+                <MoveLeft
+                  // className="absolute left-0 w-6 h-6 text-white cursor-pointer"
+                  onClick={handlePrevImage}
+                  className={
+                    imageIndex > 0
+                      ? "absolute -left-8 cursor-pointer bottom-1/2 w-6 h-6 text-white"
+                      : "hidden"
+                  }
+                />
+                <img
+                  src={images[imageIndex]}
+                  className="object-cover rounded w-full h-full max-h-dvh"
+                  loading="lazy"
+                  alt="preview images"
+                />
+                <MoveRight
+                  className={
+                    imageIndex !== images.length - 1
+                      ? "absolute -right-8 cursor-pointer bottom-1/2 h-6 text-white"
+                      : "hidden"
+                  }
+                  onClick={handleNextImage}
+                />
+              </div>
+            </DialogContent>
+          </Dialog>
+        ))}
+        {remainingImages > 0 && (
+          <div className="group relative">
+            <button className="absolute w-full h-full bg-gray-900/90 hover:bg-gray-900/50 transition-all duration-300 rounded-lg flex items-center justify-center">
+              <span className="text-xl font-medium text-white">
+                +{remainingImages}
+              </span>
+            </button>
+            <img
+              src={images[MAX_DISPLAY]}
+              alt="Extra images"
+              className="rounded-lg"
+            />
+          </div>
+        )}
+      </div>
     );
   };
 
   return (
-    <div className="mb-4">
+    <div className="mb-4 mx-2">
       {/* Message Content */}
       <div className=" relative">
         <div
-          className={`flex flex-col ${
-            variant === "sent" && "order-2"
-          } w-fit max-w-[326px] leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700`}
+          className={`flex flex-col rounded-xl ${
+            receiver ? "rounded-tl-none" : "rounded-tr-none"
+          } w-fit max-w-[326px] leading-1.5 p-4 border-gray-200 bg-gray-100 dark:bg-gray-700`}
         >
           {/* Header */}
-          <div className="flex items-center space-x-2 rtl:space-x-reverse mb-2">
-            <span className="text-sm font-semibold text-gray-900 dark:text-white">
-              {sender.name}
-            </span>
-            <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
-              {timestamp}
-            </span>
-          </div>
+
+          {/* <span className="text-sm font-normal text-gray-500 dark:text-gray-400 text-right">
+            {formatTime(createdAt)}
+          </span> */}
 
           {/* Message Body */}
           {text && (
-            <p className="text-sm font-normal text-gray-900 dark:text-white mb-2">
+            <p className="text-sm font-normal text-gray-900 dark:text-white ">
               {text}
             </p>
           )}
           {images && images.length > 0 && renderImages(images)}
 
           {/* Footer */}
-          <div className="flex justify-between items-center mt-2">
-            <span className="text-sm font-normal text-gray-500 dark:text-gray-400">
+          <div className="flex justify-between items-center">
+            <span className="text-xs ml-auto mr-0 font-normal text-gray-500 dark:text-gray-400 ">
               {status}
             </span>
             {images && images.length > 0 && (
