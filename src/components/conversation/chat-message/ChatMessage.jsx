@@ -107,13 +107,9 @@ const ChatMessage = ({ message, receiver }) => {
         >
           {/* Header */}
 
-          {/* <span className="text-sm font-normal text-gray-500 dark:text-gray-400 text-right">
-            {formatTime(createdAt)}
-          </span> */}
-
           {/* Message Body */}
           {text && (
-            <p className="text-sm font-normal text-gray-900 dark:text-white ">
+            <p className="text-sm font-normal text-gray-900 dark:text-white mb-1">
               {text}
             </p>
           )}
@@ -121,8 +117,11 @@ const ChatMessage = ({ message, receiver }) => {
 
           {/* Footer */}
           <div className="flex justify-between items-center">
-            <span className="text-xs ml-auto mr-0 font-normal text-gray-500 dark:text-gray-400 ">
+            <span className="text-xs font-normal text-gray-500 dark:text-gray-400">
               {status}
+            </span>
+            <span className="text-xs font-normal text-gray-500 dark:text-gray-400">
+              {formatTime(createdAt)}
             </span>
             {images && images.length > 0 && (
               <button className="text-sm text-blue-700 dark:text-blue-500 font-medium inline-flex items-center hover:underline">

@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { UserPlus } from "lucide-react";
+import { useQuery } from "react-query";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import {
   Tooltip,
@@ -19,11 +20,45 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
-import UserChatPreview from "@/components/user-chat-preview/UserChatPreview";
 import { Button } from "@/components/ui/button";
+import UserCard from "@/components/user-card/UserCard";
+import UserChatPreview from "@/components/user-chat-preview/UserChatPreview";
+
+import axiosService from "@/axios";
 
 const ChatList = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Query to fetch all users initially
+  const { data: allUsers = [], isLoading: loadingUsers } = useQuery({
+    queryKey: ["users"],
+    queryFn: async () => {
+      const response = await axiosService.get("/user/other-users");
+      return response.data;
+    },
+  });
+
+  // Query to fetch search results dynamically
+  const { data: searchResults = [], isLoading: loadingSearch } = useQuery({
+    queryKey: ["search", searchTerm],
+    queryFn: async () => {
+      const response = await axiosService.get(
+        `/user/search?search=${searchTerm}`
+      );
+      return response.data;
+    },
+    enabled: !!searchTerm,
+  });
+
+  const isLoading = loadingUsers || loadingSearch;
+
+  const displayedData = searchTerm ? searchResults : allUsers;
+
+  // Handle search input change
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
   return (
     <Tabs defaultValue="chats" className="min-w-[300px]">
       <TabsList className="grid w-full grid-cols-2">
@@ -53,61 +88,28 @@ const ChatList = () => {
                     <DialogTitle>New message</DialogTitle>
                     <DialogDescription>
                       <div className="my-4">
-                        <Input placeholder="Search for contacts" />
+                        <Input
+                          placeholder="Search for contacts by name or email."
+                          onChange={handleSearchChange}
+                          value={searchTerm}
+                        />
                       </div>
 
-                      <ScrollArea className="h-[calc(100vh - 200px) rounded-md w-full">
-                        <div className="flex items-center gap-2 mb-2 cursor-pointer">
-                          <Avatar className="h-8 w-8">
-                            <AvatarImage src="https://github.com/shadcn.png" />
-                            <AvatarFallback>CN</AvatarFallback>
-                          </Avatar>
-                          <div>
-                            <p className="font-semibold text-slate-700">
-                              Jese Leos
+                      {isLoading ? (
+                        <p>Loading...</p>
+                      ) : (
+                        <ScrollArea className="h-[calc(100vh - 200px) rounded-md w-full">
+                          {displayedData.length > 0 ? (
+                            displayedData.map((user, index) => (
+                              <UserCard key={index} user={user} />
+                            ))
+                          ) : (
+                            <p className="text-gray-500 text-center">
+                              No users found.
                             </p>
-                            <p className="text-xs">jeseleos@example.com</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2 mb-2 cursor-pointer">
-                          <Avatar className="h-8 w-8">
-                            <AvatarImage src="https://github.com/shadcn.png" />
-                            <AvatarFallback>CN</AvatarFallback>
-                          </Avatar>
-                          <div>
-                            <p className="font-semibold text-slate-700">
-                              Bonnie Green
-                            </p>
-                            <p className="text-xs">bonniegreen@example.com</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2 mb-2 cursor-pointer">
-                          <Avatar className="h-8 w-8">
-                            <AvatarImage src="https://github.com/shadcn.png" />
-                            <AvatarFallback>CN</AvatarFallback>
-                          </Avatar>
-                          <div>
-                            <p className="font-semibold text-slate-700">
-                              Josaph McFall
-                            </p>
-                            <p className="text-xs">joseph@example.com</p>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2 mb-2 cursor-pointer">
-                          <Avatar className="h-8 w-8">
-                            <AvatarImage src="https://github.com/shadcn.png" />
-                            <AvatarFallback>CN</AvatarFallback>
-                          </Avatar>
-                          <div>
-                            <p className="font-semibold text-slate-700">
-                              Jesley Livingston
-                            </p>
-                            <p className="text-xs">
-                              jesleylivingstone@example.com
-                            </p>
-                          </div>
-                        </div>
-                      </ScrollArea>
+                          )}
+                        </ScrollArea>
+                      )}
                     </DialogDescription>
                   </DialogHeader>
                   <DialogFooter className="sm:justify-between">
