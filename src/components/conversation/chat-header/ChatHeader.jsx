@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 
-const ChatHeader = () => {
+const ChatHeader = ({user}) => {
   return (
     <div className="flex justify-between items-center border rounded p-1 px-4">
       <div className="flex gap-2">
@@ -27,7 +27,7 @@ const ChatHeader = () => {
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <div>
-          <p className="font-semibold">Joseph McFall</p>
+          <p className="font-semibold">Realtemmy</p>
           <div className="text-xs text-green-500">Online</div>
         </div>
       </div>
